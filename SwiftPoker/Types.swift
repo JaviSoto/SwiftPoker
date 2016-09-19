@@ -136,6 +136,89 @@ extension Deck: CustomStringConvertible {
     public var description: String {
         return self.cards
             .map { $0.description }
-            .joined(separator: ",")
+            .joined(separator: ", ")
+    }
+}
+
+public struct Hand {
+    var cards: [Card] {
+        didSet {
+            precondition(cards.count == 5)
+        }
+    }
+
+    var kind: HandKind {
+        fatalError()
+    }
+}
+
+public enum HandKind {
+    case highCard
+    case pair
+    case twoPairs
+    case threeOfAKind
+    case straight
+    case flush
+    case fullHouse
+    case fourOfAKind
+    case straightFlush
+    case royalFlush
+
+    /// TODO: Determine the hand given a set of [1, 7] cards.
+    init(cards: [Card]) {
+        precondition(!cards.isEmpty)
+        precondition(cards.count <= 7)
+
+        fatalError()
+    }
+}
+
+extension HandKind: Comparable { }
+
+/// TODO: Test
+public func <(lhs: HandKind, rhs: HandKind) -> Bool {
+    guard lhs != rhs else { return false }
+
+    switch (lhs, rhs) {
+    case (.highCard, _): return true
+    case (.pair, _): return true
+    case (.twoPairs, _): return true
+    case (.threeOfAKind, _): return true
+    case (.straight, _): return true
+    case (.flush, _): return true
+    case (.fullHouse, _): return true
+    case (.fourOfAKind, _): return true
+    case (.straightFlush, _): return true
+    case (.royalFlush, _): return true
+    }
+}
+
+final class TexasHoldemRound {
+    final class Player {
+        let name: String
+        var hand: Hand
+
+        init(name: String, hand: Hand = Hand(cards: [])) {
+            self.name = name
+            self.hand = hand
+        }
+    }
+
+    public let players: [Player]
+
+    init(players: [Player]) {
+        precondition(!players.isEmpty)
+
+        self.players = players
+    }
+
+    public var communityCards: [Card] = [] {
+        didSet {
+            precondition(communityCards.count <= 5)
+        }
+    }
+
+    public var winningPlayer: Player {
+        return self.players.sorted { HandKind(cards: $0.hand.cards + self.communityCards) < HandKind(cards: $1.hand.cards + self.communityCards) }.first!
     }
 }
