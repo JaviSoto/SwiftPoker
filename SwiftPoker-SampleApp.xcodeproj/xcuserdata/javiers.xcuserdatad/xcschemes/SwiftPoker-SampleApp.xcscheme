@@ -38,6 +38,16 @@
                ReferencedContainer = "container:SwiftPoker-SampleApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF18E3091D90943300AB5515"
+               BuildableName = "SwiftPokerTests.xctest"
+               BlueprintName = "SwiftPokerTests"
+               ReferencedContainer = "container:SwiftPoker-SampleApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

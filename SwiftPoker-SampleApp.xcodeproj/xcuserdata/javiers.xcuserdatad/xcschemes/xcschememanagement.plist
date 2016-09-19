@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>SwiftPoker.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -18,6 +23,16 @@
 			<true/>
 		</dict>
 		<key>BF18E2ED1D90942500AB5515</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BF18E3011D90943300AB5515</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>BF18E3091D90943300AB5515</key>
 		<dict>
 			<key>primary</key>
 			<true/>
