@@ -72,7 +72,29 @@ final class HandsTests: XCTestCase {
     }
 
     func testStraight() {
-        XCTFail()
+        let cards: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .clubs, number: .two),
+            Card(suit: .diamonds, number: .three),
+            Card(suit: .hearts, number: .four),
+            Card(suit: .clubs, number: .jack),
+            Card(suit: .hearts, number: .jack),
+            Card(suit: .hearts, number: .five)
+        ]
+
+        XCTAssertEqual(Hand(cards: cards), .straight)
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .clubs, number: .king),
+            Card(suit: .diamonds, number: .queen),
+            Card(suit: .hearts, number: .jack),
+            Card(suit: .clubs, number: .ten),
+            Card(suit: .hearts, number: .jack),
+            Card(suit: .hearts, number: .five)
+        ]
+
+        XCTAssertEqual(Hand(cards: cards2), .straight)
     }
 
     func testThreeOfAKind() {

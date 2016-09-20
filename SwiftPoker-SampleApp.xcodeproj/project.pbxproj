@@ -20,6 +20,8 @@
 		BF18E3211D90943D00AB5515 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E3201D90943D00AB5515 /* Types.swift */; };
 		BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892D1D913FB80036C0AA /* HandsTests.swift */; };
 		BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */; };
+		BF4B89321D91754C0036C0AA /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89311D91754C0036C0AA /* Hand.swift */; };
+		BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		BF4B892C1D9096F20036C0AA /* SwiftPoker.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPoker.playground; sourceTree = "<group>"; };
 		BF4B892D1D913FB80036C0AA /* HandsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandsTests.swift; sourceTree = "<group>"; };
 		BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandComparisonTests.swift; sourceTree = "<group>"; };
+		BF4B89311D91754C0036C0AA /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
+		BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexasHoldemRound.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,8 +176,9 @@
 			isa = PBXGroup;
 			children = (
 				BF18E3201D90943D00AB5515 /* Types.swift */,
-				BF18E3041D90943300AB5515 /* SwiftPoker.h */,
-				BF18E3051D90943300AB5515 /* Info.plist */,
+				BF4B89311D91754C0036C0AA /* Hand.swift */,
+				BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */,
+				BF4B89351D9175790036C0AA /* Aux Files */,
 			);
 			path = SwiftPoker;
 			sourceTree = "<group>";
@@ -186,6 +191,15 @@
 				BF18E3131D90943300AB5515 /* Info.plist */,
 			);
 			path = SwiftPokerTests;
+			sourceTree = "<group>";
+		};
+		BF4B89351D9175790036C0AA /* Aux Files */ = {
+			isa = PBXGroup;
+			children = (
+				BF18E3041D90943300AB5515 /* SwiftPoker.h */,
+				BF18E3051D90943300AB5515 /* Info.plist */,
+			);
+			name = "Aux Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -388,7 +402,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF4B89321D91754C0036C0AA /* Hand.swift in Sources */,
 				BF18E3211D90943D00AB5515 /* Types.swift in Sources */,
+				BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
