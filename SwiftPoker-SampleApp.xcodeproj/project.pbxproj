@@ -14,11 +14,11 @@
 		BF18E2E81D90942500AB5515 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF18E2E61D90942500AB5515 /* LaunchScreen.storyboard */; };
 		BF18E2F31D90942500AB5515 /* SwiftPoker_SampleAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E2F21D90942500AB5515 /* SwiftPoker_SampleAppTests.swift */; };
 		BF18E30B1D90943300AB5515 /* SwiftPoker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF18E3021D90943300AB5515 /* SwiftPoker.framework */; };
-		BF18E3121D90943300AB5515 /* SwiftPokerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E3111D90943300AB5515 /* SwiftPokerTests.swift */; };
 		BF18E3141D90943300AB5515 /* SwiftPoker.h in Headers */ = {isa = PBXBuildFile; fileRef = BF18E3041D90943300AB5515 /* SwiftPoker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF18E3171D90943300AB5515 /* SwiftPoker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF18E3021D90943300AB5515 /* SwiftPoker.framework */; };
 		BF18E3181D90943300AB5515 /* SwiftPoker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF18E3021D90943300AB5515 /* SwiftPoker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF18E3211D90943D00AB5515 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E3201D90943D00AB5515 /* Types.swift */; };
+		BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892D1D913FB80036C0AA /* HandsTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,10 +81,10 @@
 		BF18E3041D90943300AB5515 /* SwiftPoker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftPoker.h; sourceTree = "<group>"; };
 		BF18E3051D90943300AB5515 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF18E30A1D90943300AB5515 /* SwiftPokerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPokerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BF18E3111D90943300AB5515 /* SwiftPokerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftPokerTests.swift; sourceTree = "<group>"; };
 		BF18E3131D90943300AB5515 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF18E3201D90943D00AB5515 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BF4B892C1D9096F20036C0AA /* SwiftPoker.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPoker.playground; sourceTree = "<group>"; };
+		BF4B892D1D913FB80036C0AA /* HandsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandsTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,7 +179,7 @@
 		BF18E3101D90943300AB5515 /* SwiftPokerTests */ = {
 			isa = PBXGroup;
 			children = (
-				BF18E3111D90943300AB5515 /* SwiftPokerTests.swift */,
+				BF4B892D1D913FB80036C0AA /* HandsTests.swift */,
 				BF18E3131D90943300AB5515 /* Info.plist */,
 			);
 			path = SwiftPokerTests;
@@ -393,7 +393,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF18E3121D90943300AB5515 /* SwiftPokerTests.swift in Sources */,
+				BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -140,19 +140,7 @@ extension Deck: CustomStringConvertible {
     }
 }
 
-public struct Hand {
-    var cards: [Card] {
-        didSet {
-            precondition(cards.count == 5)
-        }
-    }
-
-    var kind: HandKind {
-        fatalError()
-    }
-}
-
-public enum HandKind {
+public enum Hand {
     case highCard
     case pair
     case twoPairs
@@ -164,19 +152,108 @@ public enum HandKind {
     case straightFlush
     case royalFlush
 
-    /// TODO: Determine the hand given a set of [1, 7] cards.
+    /// TODO: Determine the hand given a set of [2, 7] cards.
     init(cards: [Card]) {
         precondition(!cards.isEmpty)
         precondition(cards.count <= 7)
 
-        fatalError()
+        if cards.hasRoyalFlush {
+            self = .royalFlush
+        } else if cards.hasStraightFlush {
+            self = .straightFlush
+        } else if cards.hasFourOfAKind {
+            self = .fourOfAKind
+        } else if cards.hasFullHouse {
+            self = .fullHouse
+        } else if cards.hasFlush {
+            self = .flush
+        } else if cards.hasStraight {
+            self = .straight
+        } else if cards.hasThreeOfAKind {
+            self = .threeOfAKind
+        } else if cards.hasTwoPairs {
+            self = .fourOfAKind
+        } else if cards.hasPair {
+            self = .pair
+        } else if cards.hasHighCard {
+            self = .highCard
+        }
+        else {
+            fatalError("A hand must at least have high card")
+        }
     }
 }
 
-extension HandKind: Comparable { }
+extension Collection where Iterator.Element == Card {
+    var hasRoyalFlush: Bool {
+        return false
+    }
+
+    var hasStraightFlush: Bool {
+        return false
+    }
+
+    var hasFourOfAKind: Bool {
+        return false
+    }
+
+    var hasFullHouse: Bool {
+        return false
+    }
+
+    var hasFlush: Bool {
+        print(self.group { $0.suit })
+        return !self.group { $0.suit }
+            .filter { suit, cards in return cards.count >= 5 }
+            .isEmpty
+    }
+
+    var hasStraight: Bool {
+        return false
+    }
+
+    var hasThreeOfAKind: Bool {
+        return !self.group { $0.number }
+            .filter { number, cards in return cards.count >= 3 }
+            .isEmpty
+    }
+
+    var hasTwoPairs: Bool {
+        return self.group { $0.number }
+            .filter { number, cards in return cards.count >= 2 }
+            .count >= 2
+    }
+
+    var hasPair: Bool {
+        return !self.group { $0.number }
+            .filter { number, cards in return cards.count >= 2 }
+            .isEmpty
+    }
+
+    /// FIX-ME: This is always true, but Hands will have to be parametrized by the details, in this case the cards in sorted order
+    var hasHighCard: Bool {
+        return true
+    }
+}
+
+extension Collection {
+    func group<U: Hashable>(by f: (Iterator.Element) -> U) -> [U : [Iterator.Element]] {
+        var dictionary: [U : [Self.Iterator.Element]] = [:]
+
+        for element in self {
+            let key = f(element)
+
+            dictionary[key] = (dictionary[key] ?? []) + [element]
+        }
+
+        return dictionary
+    }
+}
+
+extension Hand: Comparable { }
 
 /// TODO: Test
-public func <(lhs: HandKind, rhs: HandKind) -> Bool {
+public func <(lhs: Hand, rhs: Hand) -> Bool {
     guard lhs != rhs else { return false }
 
     switch (lhs, rhs) {
@@ -196,11 +273,13 @@ public func <(lhs: HandKind, rhs: HandKind) -> Bool {
 final class TexasHoldemRound {
     final class Player {
         let name: String
-        var hand: Hand
+        let cards: [Card]
 
-        init(name: String, hand: Hand = Hand(cards: [])) {
+        init(name: String, cards: [Card]) {
             self.name = name
-            self.hand = hand
+
+            precondition(cards.count == 2)
+            self.cards = cards
         }
     }
 
@@ -218,7 +297,8 @@ final class TexasHoldemRound {
         }
     }
 
+    /// FIX-ME: 2 players could have the same hand
     public var winningPlayer: Player {
-        return self.players.sorted { HandKind(cards: $0.hand.cards + self.communityCards) < HandKind(cards: $1.hand.cards + self.communityCards) }.first!
+        return self.players.sorted { Hand(cards: $0.cards + self.communityCards) < Hand(cards: $1.cards + self.communityCards) }.first!
     }
 }
