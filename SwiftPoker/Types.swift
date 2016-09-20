@@ -85,6 +85,21 @@ extension Number: CustomStringConvertible {
 public struct Card {
     public let suit: Suit
     public let number: Number
+
+    public init(suit: Suit, number: Number) {
+        self.suit = suit
+        self.number = number
+    }
+}
+
+extension Card: Hashable {
+    public var hashValue: Int {
+        return self.suit.hashValue ^ self.number.hashValue
+    }
+}
+
+public func ==(lhs: Card, rhs: Card) -> Bool {
+    return lhs.suit == rhs.suit && lhs.number == rhs.number
 }
 
 extension Card: CustomStringConvertible {
@@ -152,8 +167,8 @@ public enum Hand {
     case straightFlush
     case royalFlush
 
-    /// TODO: Determine the hand given a set of [2, 7] cards.
-    init(cards: [Card]) {
+    /// Determine the hand given a set of [2, 7] cards.
+    public init<S: Collection>(cards: S) where S.Iterator.Element == Card {
         precondition(!cards.isEmpty)
         precondition(cards.count <= 7)
 
@@ -172,7 +187,7 @@ public enum Hand {
         } else if cards.hasThreeOfAKind {
             self = .threeOfAKind
         } else if cards.hasTwoPairs {
-            self = .fourOfAKind
+            self = .twoPairs
         } else if cards.hasPair {
             self = .pair
         } else if cards.hasHighCard {
@@ -184,7 +199,7 @@ public enum Hand {
     }
 }
 
-extension Collection where Iterator.Element == Card {
+fileprivate extension Collection where Iterator.Element == Card {
     var hasRoyalFlush: Bool {
         return false
     }
@@ -194,11 +209,11 @@ extension Collection where Iterator.Element == Card {
     }
 
     var hasFourOfAKind: Bool {
-        return false
+        return self.hasSameKind(count: 4)
     }
 
     var hasFullHouse: Bool {
-        return false
+        return self.hasSameKind(count: 3) && self.hasSameKind(count: 2)
     }
 
     var hasFlush: Bool {
@@ -213,8 +228,12 @@ extension Collection where Iterator.Element == Card {
     }
 
     var hasThreeOfAKind: Bool {
+        return self.hasSameKind(count: 3)
+    }
+
+    func hasSameKind(count: Int) -> Bool {
         return !self.group { $0.number }
-            .filter { number, cards in return cards.count >= 3 }
+            .filter { number, cards in return cards.count == count }
             .isEmpty
     }
 
@@ -225,9 +244,7 @@ extension Collection where Iterator.Element == Card {
     }
 
     var hasPair: Bool {
-        return !self.group { $0.number }
-            .filter { number, cards in return cards.count >= 2 }
-            .isEmpty
+        return self.hasSameKind(count: 2)
     }
 
     /// FIX-ME: This is always true, but Hands will have to be parametrized by the details, in this case the cards in sorted order

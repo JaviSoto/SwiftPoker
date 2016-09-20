@@ -19,6 +19,7 @@
 		BF18E3181D90943300AB5515 /* SwiftPoker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF18E3021D90943300AB5515 /* SwiftPoker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF18E3211D90943D00AB5515 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E3201D90943D00AB5515 /* Types.swift */; };
 		BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892D1D913FB80036C0AA /* HandsTests.swift */; };
+		BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,7 @@
 		BF18E3201D90943D00AB5515 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BF4B892C1D9096F20036C0AA /* SwiftPoker.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPoker.playground; sourceTree = "<group>"; };
 		BF4B892D1D913FB80036C0AA /* HandsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandsTests.swift; sourceTree = "<group>"; };
+		BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandComparisonTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				BF4B892D1D913FB80036C0AA /* HandsTests.swift */,
+				BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */,
 				BF18E3131D90943300AB5515 /* Info.plist */,
 			);
 			path = SwiftPokerTests;
@@ -394,6 +397,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */,
+				BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
