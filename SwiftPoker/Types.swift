@@ -113,12 +113,12 @@ extension Number: CustomStringConvertible {
 }
 
 public struct Card {
-    public let suit: Suit
     public let number: Number
+    public let suit: Suit
 
-    public init(suit: Suit, number: Number) {
-        self.suit = suit
+    public init(number: Number, suit: Suit) {
         self.number = number
+        self.suit = suit
     }
 }
 

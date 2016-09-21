@@ -25,22 +25,22 @@ final class HandKindTests: XCTestCase {
 final class HandComparisonTests: XCTestCase {
     func testHighestCardOfStraightFlushWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .ace),
-            Card(suit: .hearts, number: .two),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .clubs, number: .jack),
-            Card(suit: .diamonds, number: .jack),
-            Card(suit: .hearts, number: .five)
+            Card(number: .ace, suit: .hearts),
+            Card(number: .two, suit: .hearts),
+            Card(number: .three, suit: .hearts),
+            Card(number: .four, suit: .hearts),
+            Card(number: .jack, suit: .clubs),
+            Card(number: .jack, suit: .diamonds),
+            Card(number: .five, suit: .hearts)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .three),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .hearts, number: .five),
-            Card(suit: .hearts, number: .six),
-            Card(suit: .diamonds, number: .queen),
-            Card(suit: .hearts, number: .seven)
+            Card(number: .three, suit: .hearts),
+            Card(number: .four, suit: .hearts),
+            Card(number: .five, suit: .hearts),
+            Card(number: .six, suit: .hearts),
+            Card(number: .queen, suit: .diamonds),
+            Card(number: .seven, suit: .hearts)
         ]
 
         let hand1 = Hand(cards1)
@@ -53,23 +53,23 @@ final class HandComparisonTests: XCTestCase {
 
     func testHighestCardWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .jack),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .spades, number: .ten),
-            Card(suit: .clubs, number: .queen),
-            Card(suit: .clubs, number: .five),
-            Card(suit: .clubs, number: .two)
+            Card(number: .jack, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .four, suit: .hearts),
+            Card(number: .ten, suit: .spades),
+            Card(number: .queen, suit: .clubs),
+            Card(number: .five, suit: .clubs),
+            Card(number: .two, suit: .clubs)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .jack),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .spades, number: .ten),
-            Card(suit: .clubs, number: .queen),
-            Card(suit: .clubs, number: .five),
-            Card(suit: .clubs, number: .ace)
+            Card(number: .jack, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .four, suit: .hearts),
+            Card(number: .ten, suit: .spades),
+            Card(number: .queen, suit: .clubs),
+            Card(number: .five, suit: .clubs),
+            Card(number: .ace, suit: .clubs)
         ]
 
         let hand1 = Hand(cards1)
@@ -82,19 +82,19 @@ final class HandComparisonTests: XCTestCase {
 
     func testHighestPairWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .ace),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .eight),
-            Card(suit: .hearts, number: .king)
+            Card(number: .ace, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .eight, suit: .spades),
+            Card(number: .king, suit: .hearts)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .ace),
-            Card(suit: .spades, number: .four),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .spades, number: .eight),
-            Card(suit: .hearts, number: .king)
+            Card(number: .ace, suit: .hearts),
+            Card(number: .four, suit: .spades),
+            Card(number: .four, suit: .hearts),
+            Card(number: .eight, suit: .spades),
+            Card(number: .king, suit: .hearts)
         ]
 
         let hand1 = Hand(cards1)
@@ -106,19 +106,19 @@ final class HandComparisonTests: XCTestCase {
 
     func testHighestKickerWithSamePairWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .ace),
-            Card(suit: .spades, number: .three),
-            Card(suit: .diamonds, number: .king),
-            Card(suit: .spades, number: .eight),
-            Card(suit: .hearts, number: .king)
+            Card(number: .ace, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .king, suit: .diamonds),
+            Card(number: .eight, suit: .spades),
+            Card(number: .king, suit: .hearts)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .jack),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .eight),
-            Card(suit: .diamonds, number: .king)
+            Card(number: .jack, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .king, suit: .hearts),
+            Card(number: .eight, suit: .spades),
+            Card(number: .king, suit: .diamonds)
         ]
 
         let hand1 = Hand(cards1)
@@ -131,19 +131,19 @@ final class HandComparisonTests: XCTestCase {
 
     func testHighestTwoPairWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .jack),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .ace),
-            Card(suit: .clubs, number: .jack)
+            Card(number: .jack, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .ace, suit: .spades),
+            Card(number: .jack, suit: .clubs)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .ace),
-            Card(suit: .clubs, number: .king)
+            Card(number: .king, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .ace, suit: .spades),
+            Card(number: .king, suit: .clubs)
         ]
 
         let hand1 = Hand(cards1)
@@ -156,19 +156,19 @@ final class HandComparisonTests: XCTestCase {
 
     func testSecondHighestTwoPairWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .ace),
-            Card(suit: .clubs, number: .king)
+            Card(number: .king, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .ace, suit: .spades),
+            Card(number: .king, suit: .clubs)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .four),
-            Card(suit: .hearts, number: .four),
-            Card(suit: .spades, number: .ace),
-            Card(suit: .clubs, number: .king)
+            Card(number: .king, suit: .hearts),
+            Card(number: .four, suit: .spades),
+            Card(number: .four, suit: .hearts),
+            Card(number: .ace, suit: .spades),
+            Card(number: .king, suit: .clubs)
         ]
 
         let hand1 = Hand(cards1)
@@ -181,19 +181,19 @@ final class HandComparisonTests: XCTestCase {
 
     func testSameTwoPairsKickerWins() {
         let cards1: Set<Card> = [
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .ten),
-            Card(suit: .clubs, number: .king)
+            Card(number: .king, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .ten, suit: .spades),
+            Card(number: .king, suit: .clubs)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .hearts, number: .king),
-            Card(suit: .spades, number: .three),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .spades, number: .ace),
-            Card(suit: .clubs, number: .king)
+            Card(number: .king, suit: .hearts),
+            Card(number: .three, suit: .spades),
+            Card(number: .three, suit: .hearts),
+            Card(number: .ace, suit: .spades),
+            Card(number: .king, suit: .clubs)
         ]
 
         let hand1 = Hand(cards1)
@@ -258,28 +258,30 @@ final class HandComparisonTests: XCTestCase {
 
     func test2RoyalFlushesAreEqual() {
         let cards1: Set<Card> = [
-            Card(suit: .clubs, number: .ace),
-            Card(suit: .hearts, number: .two),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .clubs, number: .king),
-            Card(suit: .clubs, number: .queen),
-            Card(suit: .clubs, number: .jack),
-            Card(suit: .clubs, number: .ten)
+            Card(number: .ace, suit: .clubs),
+            Card(number: .two, suit: .hearts),
+            Card(number: .three, suit: .hearts),
+            Card(number: .king, suit: .clubs),
+            Card(number: .queen, suit: .clubs),
+            Card(number: .jack, suit: .clubs),
+            Card(number: .ten, suit: .clubs)
         ]
 
         let cards2: Set<Card> = [
-            Card(suit: .diamonds, number: .ace),
-            Card(suit: .hearts, number: .two),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .diamonds, number: .king),
-            Card(suit: .diamonds, number: .queen),
-            Card(suit: .diamonds, number: .jack),
-            Card(suit: .diamonds, number: .ten)
+            Card(number: .ace, suit: .diamonds),
+            Card(number: .two, suit: .hearts),
+            Card(number: .three, suit: .hearts),
+            Card(number: .king, suit: .diamonds),
+            Card(number: .queen, suit: .diamonds),
+            Card(number: .jack, suit: .diamonds),
+            Card(number: .ten, suit: .diamonds)
         ]
 
         let hand1 = Hand(cards1)
         let hand2 = Hand(cards2)
 
         XCTAssertEqual(hand1, hand2)
+        XCTAssertFalse(hand1 < hand2)
+        XCTAssertFalse(hand2 < hand1)
     }
 }
