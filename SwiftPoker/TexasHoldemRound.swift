@@ -8,38 +8,65 @@
 
 import Foundation
 
-final class TexasHoldemRound {
-    final class Player {
-        let name: String
-        let cards: [Card]
+public final class TexasHoldemRound {
+    public final class Player {
+        public static let pocketCards = 2
 
-        init(name: String, cards: [Card]) {
-            self.name = name
+        public let cards: Set<Card>
 
-            precondition(cards.count == 2)
+        public init(cards: Set<Card>) {
+            precondition(cards.count == Player.pocketCards)
             self.cards = cards
         }
     }
 
-    public let players: [Player]
+    public var players: [Player]
 
-    init(players: [Player]) {
+    public init(players: [Player], communityCards: Set<Card>) {
         precondition(!players.isEmpty)
 
         self.players = players
+        self.communityCards = communityCards
     }
 
-    public var communityCards: [Card] = [] {
+    public var communityCards: Set<Card> {
         didSet {
             precondition(communityCards.count <= 5)
         }
     }
 
-    /// FIX-ME: 2 players could have the same hand
-    public var winningPlayer: Player {
+    public var hands: [(player: Player, hand: Hand)] {
         return self.players
-            .map { ($0, Hand($0.cards + self.communityCards)) }
-            .sorted { $0.1 < $1.1 }
-            .first!.0
+            .map { ($0, Hand(Array($0.cards) + Array(self.communityCards))) }
+    }
+
+    /// FIX-ME: 2 players could have the same hand
+    public var winningPlayer: (Player, Hand) {
+        return self.hands
+            .sorted { $0.hand > $1.hand }
+            .first!
+    }
+}
+
+extension Deck {
+    public func dealIntoGame(playerCount: Int) -> TexasHoldemRound {
+        precondition(playerCount > 0)
+        precondition(playerCount <= 10)
+
+        var cards = self.shuffled.cards
+
+        let cardsPerPlayer = TexasHoldemRound.Player.pocketCards
+
+        var players: [TexasHoldemRound.Player] = []
+
+        for _ in 0..<playerCount {
+            let playerCards = cards.pop(first: cardsPerPlayer)
+
+            players.append(TexasHoldemRound.Player(cards: Set(playerCards)))
+        }
+
+        let communityCards = cards.pop(first: 5)
+
+        return TexasHoldemRound(players: players, communityCards: Set(communityCards))
     }
 }
