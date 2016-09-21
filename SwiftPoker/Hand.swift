@@ -49,8 +49,9 @@ public enum Hand {
     }
 
     /// Determine the hand given a set of [2, 7] cards.
-    public init<S: Collection>(cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
+    public init<S: Collection>(_ cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
         precondition(!cards.isEmpty)
+        precondition(cards.count >= Hand.cardsInHand)
         precondition(cards.count <= 7)
 
         if cards.royalFlush {
@@ -167,8 +168,6 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
 
     /// Nil if the set of cards doesn't contain two pairs, the details about the cards if it does.
     var twoPairs: (number1: Number, number2: Number, kickerNumber: Number)? {
-        precondition(self.count >= Hand.cardsInHand)
-
         let pairGroups = self.group { $0.number }
             .filter { number, cards in return cards.count >= 2 }
             .map { $0.0 }
@@ -327,11 +326,15 @@ extension Hand: Comparable {
 
     public static func <(lhs: Hand, rhs: Hand) -> Bool {
         guard lhs.kind == rhs.kind else {
+            /// If it's an inferior type of hand, no need to do the nitty-gritty comparison, just compare the type
+            /// Simplifies the comparison below to just hands of the same type
             return lhs.kind < rhs.kind
         }
 
         switch (lhs, rhs) {
         case let (.highCard(numbers1), .highCard(numbers2)): return numbers1 < numbers2
+        case let (.pair(number1, kickerNumbers1), .pair(number2, kickerNumbers2)): return number1 < number2 || kickerNumbers1 < kickerNumbers2
+        case let (.twoPairs(number1, secondNumber1, kickerNumber1), .twoPairs(number2, secondNumber2, kickerNumber2)): return number1 < number2 || secondNumber1 < secondNumber2 || kickerNumber1 < kickerNumber2
 
         case let (.straightFlush(numbers1), .straightFlush(numbers2)): return numbers1 < numbers2
 

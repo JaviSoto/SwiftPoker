@@ -44,7 +44,10 @@ final class HandComparisonTests: XCTestCase {
             Card(suit: .diamonds, number: .ten)
         ]
 
-        XCTAssertEqual(Hand(cards: cards1), Hand(cards: cards2))
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand2)
     }
 
     func testHighestCardOfStraightFlushWins() {
@@ -67,7 +70,12 @@ final class HandComparisonTests: XCTestCase {
             Card(suit: .hearts, number: .seven)
         ]
 
-        XCTAssertLessThan(Hand(cards: cards2), Hand(cards: cards1))
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(hand2, hand1)
     }
 
     func testHighestCardWins() {
@@ -91,6 +99,135 @@ final class HandComparisonTests: XCTestCase {
             Card(suit: .clubs, number: .ace)
         ]
 
-        XCTAssertLessThan(Hand(cards: cards1), Hand(cards: cards2))
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(hand1, hand2)
+    }
+
+    func testHighestPairWins() {
+        let cards1: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .eight),
+            Card(suit: .hearts, number: .king)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .spades, number: .four),
+            Card(suit: .hearts, number: .four),
+            Card(suit: .spades, number: .eight),
+            Card(suit: .hearts, number: .king)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertLessThan(hand1, hand2)
+    }
+
+    func testHighestKickerWithSamePairWins() {
+        let cards1: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .spades, number: .three),
+            Card(suit: .diamonds, number: .king),
+            Card(suit: .spades, number: .eight),
+            Card(suit: .hearts, number: .king)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .jack),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .eight),
+            Card(suit: .diamonds, number: .king)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(Hand(cards2), Hand(cards1))
+    }
+
+    func testHighestTwoPairWins() {
+        let cards1: Set<Card> = [
+            Card(suit: .hearts, number: .jack),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .ace),
+            Card(suit: .clubs, number: .jack)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .ace),
+            Card(suit: .clubs, number: .king)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(hand1, hand2)
+    }
+
+    func testSecondHighestTwoPairWins() {
+        let cards1: Set<Card> = [
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .ace),
+            Card(suit: .clubs, number: .king)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .four),
+            Card(suit: .hearts, number: .four),
+            Card(suit: .spades, number: .ace),
+            Card(suit: .clubs, number: .king)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(hand1, hand2)
+    }
+
+    func testSameTwoPairsKickerWins() {
+        let cards1: Set<Card> = [
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .ten),
+            Card(suit: .clubs, number: .king)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .king),
+            Card(suit: .spades, number: .three),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .spades, number: .ace),
+            Card(suit: .clubs, number: .king)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand1)
+        XCTAssertEqual(hand2, hand2)
+        XCTAssertLessThan(hand1, hand2)
     }
 }

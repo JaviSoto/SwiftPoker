@@ -38,7 +38,7 @@ final class TexasHoldemRound {
     /// FIX-ME: 2 players could have the same hand
     public var winningPlayer: Player {
         return self.players
-            .map { ($0, Hand(cards: $0.cards + self.communityCards)) }
+            .map { ($0, Hand($0.cards + self.communityCards)) }
             .sorted { $0.1 < $1.1 }
             .first!.0
     }
