@@ -25,6 +25,18 @@ final class HandsTests: XCTestCase {
         ]
 
         XCTAssertEqual(Hand(cards: cards), .royalFlush)
+
+        let cards2: Set<Card> = [
+            Card(suit: .clubs, number: .ace),
+            Card(suit: .diamonds, number: .king),
+            Card(suit: .clubs, number: .queen),
+            Card(suit: .clubs, number: .jack),
+            Card(suit: .clubs, number: .ten),
+            Card(suit: .hearts, number: .two),
+            Card(suit: .clubs, number: .three)
+        ]
+
+        XCTAssertNotEqual(Hand(cards: cards2), .royalFlush)
     }
 
     func testStraightFlush() {

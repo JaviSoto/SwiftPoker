@@ -55,7 +55,7 @@ public enum Hand {
 
 fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
     var hasRoyalFlush: Bool {
-        guard let straight = self.straight(withAceAsLowestCard: false), self.hasFlush else { return false }
+        guard let straight = self.straight(withAceAsLowestCard: false), straight.hasFlush else { return false }
 
         return straight.last?.number == .ace
     }
