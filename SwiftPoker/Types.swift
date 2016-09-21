@@ -14,6 +14,16 @@ public enum Suit {
     case diamonds
     case clubs
 
+    public init?(_ string: String) {
+        switch string {
+        case "♥️": self = .hearts
+        case "♠️": self = .spades
+        case "♦️": self = .diamonds
+        case "♣️": self = .clubs
+        default: return nil
+        }
+    }
+
     public enum Color {
         case black
         case red
@@ -56,6 +66,25 @@ public enum Number {
     case jack
     case queen
     case king
+
+    init?(_ string: String) {
+        switch string.lowercased() {
+        case "a", "ace", "1": self = .ace
+        case "two", "2": self = .two
+        case "three", "3": self = .three
+        case "four", "4": self = .four
+        case "five", "5": self = .five
+        case "six", "6": self = .six
+        case "seven", "7": self = .seven
+        case "eight", "8": self = .eight
+        case "nine", "9": self = .nine
+        case "ten", "10": self = .ten
+        case "jack", "j": self = .jack
+        case "queen", "q": self = .queen
+        case "king", "k": self = .king
+        default: return nil
+        }
+    }
 
     fileprivate static let allNumbers: [Number] = [.two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king, .ace]
 }
@@ -120,6 +149,37 @@ public struct Card {
         self.number = number
         self.suit = suit
     }
+
+    public init?(_ numberAndSuitString: String) {
+        guard numberAndSuitString.characters.count == 2 else {
+            return nil
+        }
+
+        guard let number = Number(String(numberAndSuitString.characters.first!)),
+            let suit = Suit(String(numberAndSuitString.characters.last!))
+            else {
+                return nil
+        }
+
+        self = Card(number: number, suit: suit)
+    }
+}
+
+extension Card: ExpressibleByStringLiteral {
+    public typealias UnicodeScalarLiteralType = String
+    public typealias ExtendedGraphemeClusterLiteralType = String
+
+    public init(stringLiteral value: String) {
+        self.init(value)!
+    }
+
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self.init(value)!
+    }
+
+    public init(unicodeScalarLiteral value: String) {
+        self.init(value)!
+    }
 }
 
 extension Card: Hashable {
@@ -141,16 +201,20 @@ extension Card: CustomStringConvertible {
 public struct Deck {
     public var cards: [Card]
 
+    public init<C: Collection>(_ cards: C) where C.Iterator.Element == Card {
+        self.cards = Array(cards)
+    }
+
     public static var sortedDeck: Deck {
         var cards: [Card] = []
 
         for suit in Suit.allSuits {
             for number in Number.allNumbers {
-                cards.append(Card(suit: suit, number: number))
+                cards.append(Card(number: number, suit: suit))
             }
         }
 
-        return Deck(cards: cards)
+        return Deck(cards)
     }
 
     public mutating func shuffle() {
