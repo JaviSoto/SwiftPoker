@@ -93,14 +93,31 @@ extension Hand: CustomStringConvertible {
     public var description: String {
         switch self {
         case let .highCard(numbers): return "High Card (\(numbers.sorted(by: >))"
-        case let .pair(number, kickerNumbers): return "Pair of \(number), kicker: \(kickerNumbers.sorted(by: >))"
-        case let .twoPairs(number1, number2, kicker): return "Pair of \(number1)s and \(number2) with \(kicker) kicker"
+        case let .pair(number, kickerNumbers): return "Pair of \(number)s, kicker: \(kickerNumbers.sorted(by: >))"
+        case let .twoPairs(number1, number2, kicker): return "Two Pairs of \(number1)s and \(number2)s with \(kicker) kicker"
         case let .threeOfAKind(number, kickerNumbers): return "Three \(number)s with kicker \(kickerNumbers.sorted(by: >))"
         case let .straight(numbers): return "Straight: \(numbers.sorted(by: >))"
         case let .flush(numbers): return "Flush: \(numbers.sorted(by: >))"
-        case let .fullHouse(threeOf, pair): return "Full-House of \(threeOf)s and \(pair)s"
+        case let .fullHouse(threeOf, pair): return "Full-House \(threeOf)s over \(pair)s"
         case let .fourOfAKind(number, kicker): return "Four of a kind \(number) with \(kicker) kicker"
         case let .straightFlush(numbers): return "Straight-Flush: \(numbers.sorted(by: >))"
+        case .royalFlush: return "Royal Flush"
+        }
+    }
+}
+
+extension Hand.Kind: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case .highCard: return "High Card"
+        case .pair: return "Pair"
+        case .twoPairs: return "Two Pairs"
+        case .threeOfAKind: return "Three of a Kind"
+        case .straight: return "Straight"
+        case .flush: return "Flush"
+        case .fullHouse: return "Full-House"
+        case .fourOfAKind: return "Four of a Kind"
+        case .straightFlush: return "Straight Flush"
         case .royalFlush: return "Royal Flush"
         }
     }
