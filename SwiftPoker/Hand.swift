@@ -88,6 +88,23 @@ public enum Hand {
     public static let cardsInHand = 5
 }
 
+extension Hand: CustomStringConvertible {
+    public var description: String {
+        switch self {
+        case let .highCard(numbers): return "High Card (\(numbers.sorted(by: >))"
+        case let .pair(number, kickerNumbers): return "Pair of \(number), kicker: \(kickerNumbers.sorted(by: >))"
+        case let .twoPairs(number1, number2, kicker): return "Pair of \(number1)s and \(number2) with \(kicker) kicker"
+        case let .threeOfAKind(number, kickerNumbers): return "Three \(number)s with kicker \(kickerNumbers.sorted(by: >))"
+        case let .straight(numbers): return "Straight: \(numbers.sorted(by: >))"
+        case let .flush(numbers): return "Flush: \(numbers.sorted(by: >))"
+        case let .fullHouse(threeOf, pair): return "Full-House of \(threeOf)s and \(pair)s"
+        case let .fourOfAKind(number, kicker): return "Four of a kind \(number) with \(kicker) kicker"
+        case let .straightFlush(numbers): return "Straight-Flush: \(numbers.sorted(by: >))"
+        case .royalFlush: return "Royal Flush"
+        }
+    }
+}
+
 fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
     var royalFlush: Bool {
         guard let straight = self.straight(withAceAsLowestCard: false), straight.flush != nil else { return false }
@@ -215,9 +232,6 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
 
         let possibleStraightHands = sortedCards.slice(groupsOf: Hand.cardsInHand)
 
-        print(sortedCards)
-        print(aceAsLowestCard)
-
         for possibleStraightHand in possibleStraightHands {
             func cardsAreConsecutive() -> Bool {
                 let numericValueSum = Set(possibleStraightHand
@@ -243,7 +257,7 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
 }
 
 func <(lhs: Set<Number>, rhs: Set<Number>) -> Bool {
-    for (leftValue, rightValue) in zip(lhs.map { $0.numericValue() }, rhs.map { $0.numericValue() }) {
+    for (leftValue, rightValue) in zip(lhs.map { $0.numericValue() }.sorted(by: >), rhs.map { $0.numericValue() }.sorted(by: >)) {
         if leftValue == rightValue {
             continue
         }
@@ -312,39 +326,26 @@ extension Hand: Comparable {
     }
 
     public static func <(lhs: Hand, rhs: Hand) -> Bool {
-        guard lhs != rhs else { return false }
-        guard lhs.kind < rhs.kind else { return false }
+        guard lhs.kind == rhs.kind else {
+            return lhs.kind < rhs.kind
+        }
 
         switch (lhs, rhs) {
-        case (.highCard, _): return true
-        case (.pair, _): return true
-        case (.twoPairs, _): return true
-        case (.threeOfAKind, _): return true
-        case (.straight, _): return true
-        case (.flush, _): return true
-        case (.fullHouse, _): return true
-        case (.fourOfAKind, _): return true
-        case (.straightFlush, _): return true
-        case (.royalFlush, _): return true
+        case let (.highCard(numbers1), .highCard(numbers2)): return numbers1 < numbers2
+
+        case let (.straightFlush(numbers1), .straightFlush(numbers2)): return numbers1 < numbers2
+
+        default: fatalError("Switch should be exhaustive")
         }
     }
 }
 
 extension Hand.Kind: Comparable {
+    private static let kindsByStrength: [Hand.Kind] = [.highCard, .pair, .twoPairs, .threeOfAKind, .straight, .flush, .fullHouse, .fourOfAKind, .straightFlush, .royalFlush]
+
     public static func <(lhs: Hand.Kind, rhs: Hand.Kind) -> Bool {
         guard lhs != rhs else { return false }
 
-        switch (lhs, rhs) {
-        case (.highCard, _): return true
-        case (.pair, _): return true
-        case (.twoPairs, _): return true
-        case (.threeOfAKind, _): return true
-        case (.straight, _): return true
-        case (.flush, _): return true
-        case (.fullHouse, _): return true
-        case (.fourOfAKind, _): return true
-        case (.straightFlush, _): return true
-        case (.royalFlush, _): return true
-        }
+        return Hand.Kind.kindsByStrength.index(of: lhs)! < Hand.Kind.kindsByStrength.index(of: rhs)!
     }
 }

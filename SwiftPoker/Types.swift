@@ -60,7 +60,11 @@ public enum Number {
     fileprivate static let allNumbers: [Number] = [.two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king, .ace]
 }
 
-extension Number {
+extension Number: Comparable {
+    public static func <(lhs: Number, rhs: Number) -> Bool {
+        return Number.compare(aceAsLowestCard: false)(lhs, rhs)
+    }
+
     static func compare(aceAsLowestCard: Bool) -> (Number, Number) -> Bool  {
         return { lhs, rhs in
             return lhs.numericValue(aceAsLowestCard: aceAsLowestCard) < rhs.numericValue(aceAsLowestCard: aceAsLowestCard)
@@ -91,7 +95,7 @@ extension Number {
 extension Number: CustomStringConvertible {
     public var description: String {
         switch self {
-        case .ace: return "1"
+        case .ace: return "A"
         case .two: return "2"
         case .three: return "3"
         case .four: return "4"
