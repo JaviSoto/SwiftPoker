@@ -9,44 +9,79 @@
 import Foundation
 
 public enum Hand {
-    case highCard
-    case pair
-    case twoPairs
-    case threeOfAKind
-    case straight
-    case flush
-    case fullHouse
-    case fourOfAKind
-    case straightFlush
+    case highCard(numbers: Set<Number>)
+    case pair(number: Number, kickerNumbers: Set<Number>)
+    case twoPairs(number1: Number, number2: Number, kickerNumber: Number)
+    case threeOfAKind(number: Number, kickerNumbers: Set<Number>)
+    case straight(numbers: Set<Number>)
+    case flush(numbers: Set<Number>)
+    case fullHouse(threeOf: Number, pairOf: Number)
+    case fourOfAKind(number: Number, kicker: Number)
+    case straightFlush(numbers: Set<Number>)
     case royalFlush
+
+    public enum Kind {
+        case highCard
+        case pair
+        case twoPairs
+        case threeOfAKind
+        case straight
+        case flush
+        case fullHouse
+        case fourOfAKind
+        case straightFlush
+        case royalFlush
+    }
+
+    public var kind: Kind {
+        switch self {
+        case .highCard: return .highCard
+        case .pair: return .pair
+        case .twoPairs: return .twoPairs
+        case .threeOfAKind: return .threeOfAKind
+        case .straight: return .straight
+        case .flush: return .flush
+        case .fullHouse: return .fullHouse
+        case .fourOfAKind: return .fourOfAKind
+        case .straightFlush: return .straightFlush
+        case .royalFlush: return .royalFlush
+        }
+    }
 
     /// Determine the hand given a set of [2, 7] cards.
     public init<S: Collection>(cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
         precondition(!cards.isEmpty)
         precondition(cards.count <= 7)
 
-        if cards.hasRoyalFlush {
+        if cards.royalFlush {
             self = .royalFlush
-        } else if cards.hasStraightFlush {
-            self = .straightFlush
-        } else if cards.hasFourOfAKind {
-            self = .fourOfAKind
-        } else if cards.hasFullHouse {
-            self = .fullHouse
-        } else if cards.hasFlush {
-            self = .flush
-        } else if cards.hasStraight {
-            self = .straight
-        } else if cards.hasThreeOfAKind {
-            self = .threeOfAKind
-        } else if cards.hasTwoPairs {
-            self = .twoPairs
-        } else if cards.hasPair {
-            self = .pair
-        } else if cards.hasHighCard {
-            self = .highCard
-        } else {
-            fatalError("A hand must at least have high card")
+        }
+        else if let straightFlush = cards.straightFlush {
+            self = .straightFlush(numbers: straightFlush)
+        }
+        else if let fourOfAKind = cards.fourOfAKind {
+            self = .fourOfAKind(number: fourOfAKind.number, kicker: fourOfAKind.kicker)
+        }
+        else if let fullHouse = cards.fullHouse {
+            self = .fullHouse(threeOf: fullHouse.threeOf, pairOf: fullHouse.pairOf)
+        }
+        else if let flush = cards.flush {
+            self = .flush(numbers: flush)
+        }
+        else if let straight = cards.straight {
+            self = .straight(numbers: Set(straight.map { $0.number }))
+        }
+        else if let threeOfAKind = cards.threeOfAKind {
+            self = .threeOfAKind(number: threeOfAKind.number, kickerNumbers: threeOfAKind.kickerNumbers)
+        }
+        else if let twoPairs = cards.twoPairs {
+            self = .twoPairs(number1: twoPairs.number1, number2: twoPairs.number2, kickerNumber: twoPairs.kickerNumber)
+        }
+        else if let pair = cards.pair {
+            self = .pair(number: pair.number, kickerNumbers: pair.kickerNumbers)
+        }
+        else {
+            self = .highCard(numbers: cards.highCard)
         }
     }
 
@@ -54,59 +89,96 @@ public enum Hand {
 }
 
 fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
-    var hasRoyalFlush: Bool {
-        guard let straight = self.straight(withAceAsLowestCard: false), straight.hasFlush else { return false }
+    var royalFlush: Bool {
+        guard let straight = self.straight(withAceAsLowestCard: false), straight.flush != nil else { return false }
 
         return straight.last?.number == .ace
     }
 
-    var hasStraightFlush: Bool {
-        guard let straight = self.straight else { return false }
+    /// Nil if the set of cards doesn't contain a straight flush, the cards in the straight flush if it does.
+    var straightFlush: Set<Number>? {
+        guard let straight = self.straight, straight.flush != nil else { return nil }
 
-        return straight.hasFlush
+        return Set(straight.map { $0.number })
     }
 
-    var hasFourOfAKind: Bool {
-        return self.hasSameKind(count: 4)
+    /// Nil if the set of cards doesn't contain four of a kind, the details about the cards if it does.
+    var fourOfAKind: (number: Number, kicker: Number)? {
+        return self.sameNumber(count: 4)
+            .map { (number: $0.number, kicker: $0.kickerNumbers.first!) }
     }
 
-    var hasFullHouse: Bool {
-        return self.hasSameKind(count: 3) && self.hasSameKind(count: 2)
+    /// Nil if the set of cards doesn't contain a full house, the details about the cards if it does.
+    var fullHouse: (threeOf: Number, pairOf: Number)? {
+        guard let threeOfAKind = self.sameNumber(count: 3),
+            let pair = self.sameNumber(count: 2) else { return nil }
+
+        return (threeOf: threeOfAKind.number, pairOf: pair.number)
     }
 
-    var hasFlush: Bool {
-        return !self.group { $0.suit }
-            .filter { suit, cards in return cards.count >= Hand.cardsInHand }
-            .isEmpty
+    /// Nil if the set of cards doesn't contain a flush, the details about the cards if it does.
+    var flush: Set<Number>? {
+        guard let flushCards: [Card] = self
+            .group(by: { $0.suit })
+            .filter({ suit, cards in return cards.count >= Hand.cardsInHand })
+            .map({ $1 })
+            .first
+            else { return nil }
+
+        return flushCards.highestHandNumbers()
     }
 
-    var hasStraight: Bool {
-        return self.straight != nil
+    /// Nil if the set of cards doesn't contain three of a kind, the details about the cards if it does.
+    var threeOfAKind: (number: Number, kickerNumbers: Set<Number>)? {
+        return self.sameNumber(count: 3)
+            .map { (number: $0.number, kickerNumbers: $0.kickerNumbers) }
     }
 
-    var hasThreeOfAKind: Bool {
-        return self.hasSameKind(count: 3)
+    /// Nil if the set of cards doesn't contain `count` cards of the same number, the details about the cards if it does.
+    private func sameNumber(count: Int) -> (number: Number, kickerNumbers: Set<Number>)? {
+        guard let groupNumber: Number = self.group(by: { $0.number })
+            .filter({ number, cards in return cards.count == count })
+            .map({ $0.key })
+            .first else { return nil }
+
+        let kickerNumbers = self
+            .filter { $0.number != groupNumber }
+            .highestHandNumbers(count: Hand.cardsInHand - count)
+
+        return (number: groupNumber, kickerNumbers: kickerNumbers)
     }
 
-    func hasSameKind(count: Int) -> Bool {
-        return !self.group { $0.number }
-            .filter { number, cards in return cards.count == count }
-            .isEmpty
-    }
+    /// Nil if the set of cards doesn't contain two pairs, the details about the cards if it does.
+    var twoPairs: (number1: Number, number2: Number, kickerNumber: Number)? {
+        precondition(self.count >= Hand.cardsInHand)
 
-    var hasTwoPairs: Bool {
-        return self.group { $0.number }
+        let pairGroups = self.group { $0.number }
             .filter { number, cards in return cards.count >= 2 }
-            .count >= 2
+            .map { $0.0 }
+
+        guard pairGroups.count >= 2 else { return nil }
+
+        let number1 = pairGroups[0]
+        let number2 = pairGroups[1]
+
+        let highestKicker = self
+            .filter { $0.number != number1 && $0.number != number2 }
+            .highestHandNumbers(count: 1)
+            .first!
+
+        return (number1: number1, number2: number2, kickerNumber: highestKicker)
     }
 
-    var hasPair: Bool {
-        return self.hasSameKind(count: 2)
+    /// Nil if the set of cards doesn't contain a pair, the details about the cards if it does.
+    var pair: (number: Number, kickerNumbers: Set<Number>)? {
+        return self.sameNumber(count: 2).map {
+            (kind: $0.number, kickerNumbers: $0.kickerNumbers)
+        }
     }
 
-    /// FIX-ME: This is always true, but Hands will have to be parametrized by the details, in this case the cards in sorted order
-    var hasHighCard: Bool {
-        return true
+    /// The set of cards
+    var highCard: Set<Number> {
+        return self.highestHandNumbers()
     }
 }
 
@@ -170,6 +242,26 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
     }
 }
 
+func <(lhs: Set<Number>, rhs: Set<Number>) -> Bool {
+    for (leftValue, rightValue) in zip(lhs.map { $0.numericValue() }, rhs.map { $0.numericValue() }) {
+        if leftValue == rightValue {
+            continue
+        }
+
+        return leftValue < rightValue
+    }
+
+    return false
+}
+
+extension Collection where Iterator.Element == Card {
+    func highestHandNumbers(count: Int = Hand.cardsInHand) -> Set<Number> {
+        return Set(self.map { $0.number }
+            .sorted(by: { $0.numericValue() < $1.numericValue() })
+            .suffix(count))
+    }
+}
+
 extension Array {
     /// Returns all possible subarrays of size `groupSize` starting from the left
     fileprivate func slice(groupsOf groupSize: Int) -> [ArraySlice<Iterator.Element>] {
@@ -200,7 +292,46 @@ extension Collection {
 }
 
 extension Hand: Comparable {
+    public static func ==(lhs: Hand, rhs: Hand) -> Bool {
+        guard lhs.kind == rhs.kind else { return false }
+
+        switch (lhs, rhs) {
+        case let (.highCard(numbers1), .highCard(numbers2)) where numbers1 == numbers2: return true
+        case let (.pair(number1, kickerNumbers1), .pair(number2, kickerNumbers2)) where number1 == number2 && kickerNumbers1 == kickerNumbers2: return true
+        case let (.twoPairs(number1, secondNumber1, kickerNumber1), .twoPairs(number2, secondNumber2, kickerNumber2)) where number1 == number2 && secondNumber1 == secondNumber2 && kickerNumber1 == kickerNumber2: return true
+        case let (.threeOfAKind(number1, kickerNumbers1), .threeOfAKind(number2, kickerNumbers2)) where number1 == number2 && kickerNumbers1 == kickerNumbers2: return true
+        case let (.straight(numbers1), .straight(numbers2)) where numbers1 == numbers2: return true
+        case let (.flush(numbers1), .flush(numbers2)) where numbers1 == numbers2: return true
+        case let (.fullHouse(threeOf1, pairOf1), .fullHouse(threeOf2, pairOf2)) where threeOf1 == threeOf2 && pairOf1 == pairOf2: return true
+        case let (.fourOfAKind(card1, kicker1), .fourOfAKind(card2, kicker2)) where card1 == card2 && kicker1 == kicker2: return true
+        case let (.straightFlush(numbers1), .straightFlush(numbers2)) where numbers1 == numbers2: return true
+        case (.royalFlush, .royalFlush): return true
+
+        default: return false
+        }
+    }
+
     public static func <(lhs: Hand, rhs: Hand) -> Bool {
+        guard lhs != rhs else { return false }
+        guard lhs.kind < rhs.kind else { return false }
+
+        switch (lhs, rhs) {
+        case (.highCard, _): return true
+        case (.pair, _): return true
+        case (.twoPairs, _): return true
+        case (.threeOfAKind, _): return true
+        case (.straight, _): return true
+        case (.flush, _): return true
+        case (.fullHouse, _): return true
+        case (.fourOfAKind, _): return true
+        case (.straightFlush, _): return true
+        case (.royalFlush, _): return true
+        }
+    }
+}
+
+extension Hand.Kind: Comparable {
+    public static func <(lhs: Hand.Kind, rhs: Hand.Kind) -> Bool {
         guard lhs != rhs else { return false }
 
         switch (lhs, rhs) {

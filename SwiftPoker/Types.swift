@@ -58,28 +58,18 @@ public enum Number {
     case king
 
     fileprivate static let allNumbers: [Number] = [.two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king, .ace]
-
-    fileprivate static let allNumbersWithAceAsLowestCard: [Number] = [.ace, .two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king]
-
-    public static func sortedNumbers(aceAsLowestCard: Bool) -> [Number] {
-        return aceAsLowestCard ? Number.allNumbersWithAceAsLowestCard : Number.allNumbers
-    }
 }
 
 extension Number {
     static func compare(aceAsLowestCard: Bool) -> (Number, Number) -> Bool  {
-        let numbers = Number.sortedNumbers(aceAsLowestCard: aceAsLowestCard)
-
         return { lhs, rhs in
-            guard lhs != rhs else { return false }
-
-            return numbers.index(of: lhs)! < numbers.index(of: rhs)!
+            return lhs.numericValue(aceAsLowestCard: aceAsLowestCard) < rhs.numericValue(aceAsLowestCard: aceAsLowestCard)
         }
     }
 }
 
 extension Number {
-    func numericValue(aceAsLowestCard: Bool) -> Int {
+    func numericValue(aceAsLowestCard: Bool = false) -> Int {
         switch self {
         case .ace: return aceAsLowestCard ? 1 : 14
         case .two: return 2
@@ -132,10 +122,10 @@ extension Card: Hashable {
     public var hashValue: Int {
         return self.suit.hashValue ^ self.number.hashValue
     }
-}
 
-public func ==(lhs: Card, rhs: Card) -> Bool {
-    return lhs.suit == rhs.suit && lhs.number == rhs.number
+    public static func ==(lhs: Card, rhs: Card) -> Bool {
+        return lhs.suit == rhs.suit && lhs.number == rhs.number
+    }
 }
 
 extension Card: CustomStringConvertible {
