@@ -22,6 +22,7 @@
 		BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */; };
 		BF4B89321D91754C0036C0AA /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89311D91754C0036C0AA /* Hand.swift */; };
 		BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */; };
+		BFF2795E1D92C301006FACA8 /* CardNumberSortingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +92,7 @@
 		BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandComparisonTests.swift; sourceTree = "<group>"; };
 		BF4B89311D91754C0036C0AA /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexasHoldemRound.swift; sourceTree = "<group>"; };
+		BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardNumberSortingTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +188,7 @@
 		BF18E3101D90943300AB5515 /* SwiftPokerTests */ = {
 			isa = PBXGroup;
 			children = (
+				BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */,
 				BF4B892D1D913FB80036C0AA /* HandsTests.swift */,
 				BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */,
 				BF18E3131D90943300AB5515 /* Info.plist */,
@@ -414,6 +417,7 @@
 			files = (
 				BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */,
 				BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */,
+				BFF2795E1D92C301006FACA8 /* CardNumberSortingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

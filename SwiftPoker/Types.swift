@@ -57,16 +57,44 @@ public enum Number {
     case queen
     case king
 
-    public static var allNumbers: [Number] {
-        return [.two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king, .ace]
+    fileprivate static let allNumbers: [Number] = [.two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king, .ace]
+
+    fileprivate static let allNumbersWithAceAsLowestCard: [Number] = [.ace, .two, .three, .four, .five, .six, .seven, .eight, .nine, .ten, .jack, .queen, .king]
+
+    public static func sortedNumbers(aceAsLowestCard: Bool) -> [Number] {
+        return aceAsLowestCard ? Number.allNumbersWithAceAsLowestCard : Number.allNumbers
     }
 }
 
-extension Number: Comparable {
-    public static func <(lhs: Number, rhs: Number) -> Bool {
-        let allNumbers = Number.allNumbers
+extension Number {
+    static func compare(aceAsLowestCard: Bool) -> (Number, Number) -> Bool  {
+        let numbers = Number.sortedNumbers(aceAsLowestCard: aceAsLowestCard)
 
-        return allNumbers.index(of: lhs)! < allNumbers.index(of: rhs)!
+        return { lhs, rhs in
+            guard lhs != rhs else { return false }
+
+            return numbers.index(of: lhs)! < numbers.index(of: rhs)!
+        }
+    }
+}
+
+extension Number {
+    func numericValue(aceAsLowestCard: Bool) -> Int {
+        switch self {
+        case .ace: return aceAsLowestCard ? 1 : 14
+        case .two: return 2
+        case .three: return 3
+        case .four: return 4
+        case .five: return 5
+        case .six: return 6
+        case .seven: return 7
+        case .eight: return 8
+        case .nine: return 9
+        case .ten: return 10
+        case .jack: return 11
+        case .queen: return 12
+        case .king: return 13
+        }
     }
 }
 

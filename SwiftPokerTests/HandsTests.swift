@@ -90,7 +90,6 @@ final class HandsTests: XCTestCase {
             Card(suit: .diamonds, number: .queen),
             Card(suit: .hearts, number: .jack),
             Card(suit: .clubs, number: .ten),
-            Card(suit: .hearts, number: .jack),
             Card(suit: .hearts, number: .five)
         ]
 
@@ -151,7 +150,7 @@ final class HandsTests: XCTestCase {
             Card(suit: .hearts, number: .jack),
             Card(suit: .spades, number: .three),
             Card(suit: .hearts, number: .four),
-            Card(suit: .spades, number: .ace),
+            Card(suit: .spades, number: .ten),
             Card(suit: .clubs, number: .queen),
             Card(suit: .clubs, number: .five),
             Card(suit: .clubs, number: .two)

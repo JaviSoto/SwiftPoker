@@ -21,7 +21,7 @@ public enum Hand {
     case royalFlush
 
     /// Determine the hand given a set of [2, 7] cards.
-    public init<S: Collection>(cards: S) where S.Iterator.Element == Card {
+    public init<S: Collection>(cards: S) where S.Iterator.Element == Card, S.IndexDistance == Int {
         precondition(!cards.isEmpty)
         precondition(cards.count <= 7)
 
@@ -45,14 +45,15 @@ public enum Hand {
             self = .pair
         } else if cards.hasHighCard {
             self = .highCard
-        }
-        else {
+        } else {
             fatalError("A hand must at least have high card")
         }
     }
+
+    public static let cardsInHand = 5
 }
 
-fileprivate extension Collection where Iterator.Element == Card {
+fileprivate extension Collection where Iterator.Element == Card, IndexDistance == Int {
     var hasRoyalFlush: Bool {
         return false
     }
@@ -70,14 +71,15 @@ fileprivate extension Collection where Iterator.Element == Card {
     }
 
     var hasFlush: Bool {
-        print(self.group { $0.suit })
         return !self.group { $0.suit }
-            .filter { suit, cards in return cards.count >= 5 }
+            .filter { suit, cards in return cards.count >= Hand.cardsInHand }
             .isEmpty
     }
 
     var hasStraight: Bool {
-        return false
+        guard self.count >= Hand.cardsInHand else { return false }
+
+        return Array(self).containsStraight
     }
 
     var hasThreeOfAKind: Bool {
@@ -106,9 +108,71 @@ fileprivate extension Collection where Iterator.Element == Card {
     }
 }
 
+fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int, Index == Int {
+    var containsStraight: Bool {
+        return self.containsStraight(withAceAsLowestCard: true) || containsStraight(withAceAsLowestCard: false)
+    }
+
+    func sorted(withAceAsLowestCard aceAsLowestCard: Bool) -> [Card] {
+        let compare = Number.compare(aceAsLowestCard: aceAsLowestCard)
+
+        return self.sorted { card1, card2 in
+            return compare(card1.number, card2.number)
+        }
+    }
+
+    func containsStraight(withAceAsLowestCard aceAsLowestCard: Bool) -> Bool {
+        guard self.count >= Hand.cardsInHand else { return false }
+
+        let sortedCards = self.sorted(withAceAsLowestCard: aceAsLowestCard)
+
+        let possibleStraightHands = sortedCards.slice(groupsOf: Hand.cardsInHand)
+
+        print(sortedCards)
+        print(aceAsLowestCard)
+
+        for possibleStraightHand in possibleStraightHands {
+            func cardsAreConsecutive() -> Bool {
+                let numericValueSum = Set(possibleStraightHand
+                    .map { $0.number })
+                    .map { $0.numericValue(aceAsLowestCard: aceAsLowestCard) }
+                    .reduce(0, +)
+
+                let firstNumericValue = possibleStraightHand.first!.number.numericValue(aceAsLowestCard: aceAsLowestCard)
+                let lastNumericValue = possibleStraightHand.last!.number.numericValue(aceAsLowestCard: aceAsLowestCard)
+
+                let expectedSum = (firstNumericValue + lastNumericValue) * possibleStraightHand.count / 2
+
+                return numericValueSum == expectedSum
+            }
+
+            if cardsAreConsecutive() {
+                return true
+            }
+        }
+
+        return false
+    }
+}
+
+extension Array {
+    /// Returns all possible subarrays of size `groupSize` starting from the left
+    fileprivate func slice(groupsOf groupSize: Int) -> [ArraySlice<Iterator.Element>] {
+        guard self.count >= groupSize else { return [] }
+
+        let startIndices = (0...(self.count - groupSize))
+
+        return startIndices.map { startIndex in
+            let range = (startIndex..<(startIndex + groupSize))
+
+            return self[range]
+        }
+    }
+}
+
 extension Collection {
-    func group<U: Hashable>(by f: (Iterator.Element) -> U) -> [U : [Iterator.Element]] {
-        var dictionary: [U : [Self.Iterator.Element]] = [:]
+    fileprivate func group<Key: Hashable>(by f: (Iterator.Element) -> Key) -> [Key : [Iterator.Element]] {
+        var dictionary: [Key : [Self.Iterator.Element]] = [:]
 
         for element in self {
             let key = f(element)
