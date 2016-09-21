@@ -21,7 +21,7 @@ public enum Hand {
     case royalFlush
 
     /// Determine the hand given a set of [2, 7] cards.
-    public init<S: Collection>(cards: S) where S.Iterator.Element == Card, S.IndexDistance == Int {
+    public init<S: Collection>(cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
         precondition(!cards.isEmpty)
         precondition(cards.count <= 7)
 
@@ -53,13 +53,17 @@ public enum Hand {
     public static let cardsInHand = 5
 }
 
-fileprivate extension Collection where Iterator.Element == Card, IndexDistance == Int {
+fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
     var hasRoyalFlush: Bool {
-        return false
+        guard let straight = self.straight(withAceAsLowestCard: false), self.hasFlush else { return false }
+
+        return straight.last?.number == .ace
     }
 
     var hasStraightFlush: Bool {
-        return false
+        guard let straight = self.straight else { return false }
+
+        return straight.hasFlush
     }
 
     var hasFourOfAKind: Bool {
@@ -77,9 +81,7 @@ fileprivate extension Collection where Iterator.Element == Card, IndexDistance =
     }
 
     var hasStraight: Bool {
-        guard self.count >= Hand.cardsInHand else { return false }
-
-        return Array(self).containsStraight
+        return self.straight != nil
     }
 
     var hasThreeOfAKind: Bool {
@@ -108,9 +110,20 @@ fileprivate extension Collection where Iterator.Element == Card, IndexDistance =
     }
 }
 
-fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int, Index == Int {
-    var containsStraight: Bool {
-        return self.containsStraight(withAceAsLowestCard: true) || containsStraight(withAceAsLowestCard: false)
+fileprivate extension Collection {
+    func all(f: (Iterator.Element) -> Bool) -> Bool {
+        for element in self {
+            guard f(element) else { return false }
+        }
+
+        return true
+    }
+}
+
+fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
+    /// - returns: nil if the set of cards doesn't have a straight, or the array of cards that has a straight if it does.
+    var straight: [Card]? {
+        return self.straight(withAceAsLowestCard: true) ?? self.straight(withAceAsLowestCard: false)
     }
 
     func sorted(withAceAsLowestCard aceAsLowestCard: Bool) -> [Card] {
@@ -121,8 +134,10 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
         }
     }
 
-    func containsStraight(withAceAsLowestCard aceAsLowestCard: Bool) -> Bool {
-        guard self.count >= Hand.cardsInHand else { return false }
+
+    /// - returns: nil if the set of cards doesn't have a straight, or the array of cards that has a straight if it does.
+    func straight(withAceAsLowestCard aceAsLowestCard: Bool) -> [Card]? {
+        guard self.count >= Hand.cardsInHand else { return nil }
 
         let sortedCards = self.sorted(withAceAsLowestCard: aceAsLowestCard)
 
@@ -147,11 +162,11 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
             }
 
             if cardsAreConsecutive() {
-                return true
+                return Array(possibleStraightHand)
             }
         }
 
-        return false
+        return nil
     }
 }
 

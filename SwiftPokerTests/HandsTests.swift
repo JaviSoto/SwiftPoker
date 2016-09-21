@@ -14,11 +14,42 @@ final class HandsTests: XCTestCase {
     /// MARK: Hand detection
 
     func testRoyalFlush() {
-        XCTFail()
+        let cards: Set<Card> = [
+            Card(suit: .clubs, number: .ace),
+            Card(suit: .hearts, number: .two),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .clubs, number: .king),
+            Card(suit: .clubs, number: .queen),
+            Card(suit: .clubs, number: .jack),
+            Card(suit: .clubs, number: .ten)
+        ]
+
+        XCTAssertEqual(Hand(cards: cards), .royalFlush)
     }
 
     func testStraightFlush() {
-        XCTFail()
+        let cards: Set<Card> = [
+            Card(suit: .hearts, number: .ace),
+            Card(suit: .hearts, number: .two),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .hearts, number: .four),
+            Card(suit: .clubs, number: .jack),
+            Card(suit: .diamonds, number: .jack),
+            Card(suit: .hearts, number: .five)
+        ]
+
+        XCTAssertEqual(Hand(cards: cards), .straightFlush)
+
+        let cards2: Set<Card> = [
+            Card(suit: .hearts, number: .three),
+            Card(suit: .hearts, number: .four),
+            Card(suit: .hearts, number: .five),
+            Card(suit: .hearts, number: .six),
+            Card(suit: .diamonds, number: .queen),
+            Card(suit: .hearts, number: .seven)
+        ]
+
+        XCTAssertEqual(Hand(cards: cards2), .straightFlush)
     }
 
     func testFourOfAKind() {
