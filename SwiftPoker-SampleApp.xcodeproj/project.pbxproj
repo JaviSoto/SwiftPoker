@@ -23,6 +23,7 @@
 		BF4B89321D91754C0036C0AA /* Hand.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89311D91754C0036C0AA /* Hand.swift */; };
 		BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */; };
 		BFF2795E1D92C301006FACA8 /* CardNumberSortingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */; };
+		BFF279621D933F10006FACA8 /* CollectionExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF279611D933F10006FACA8 /* CollectionExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		BF4B89311D91754C0036C0AA /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
 		BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TexasHoldemRound.swift; sourceTree = "<group>"; };
 		BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardNumberSortingTests.swift; sourceTree = "<group>"; };
+		BFF279611D933F10006FACA8 /* CollectionExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,6 +182,7 @@
 				BF18E3201D90943D00AB5515 /* Types.swift */,
 				BF4B89311D91754C0036C0AA /* Hand.swift */,
 				BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */,
+				BFF279611D933F10006FACA8 /* CollectionExtensions.swift */,
 				BF4B89351D9175790036C0AA /* Aux Files */,
 			);
 			path = SwiftPoker;
@@ -406,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF4B89321D91754C0036C0AA /* Hand.swift in Sources */,
+				BFF279621D933F10006FACA8 /* CollectionExtensions.swift in Sources */,
 				BF18E3211D90943D00AB5515 /* Types.swift in Sources */,
 				BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */,
 			);

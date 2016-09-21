@@ -198,16 +198,6 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
     }
 }
 
-fileprivate extension Collection {
-    func all(f: (Iterator.Element) -> Bool) -> Bool {
-        for element in self {
-            guard f(element) else { return false }
-        }
-
-        return true
-    }
-}
-
 fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
     /// - returns: nil if the set of cards doesn't have a straight, or the array of cards that has a straight if it does.
     var straight: [Card]? {
@@ -272,35 +262,6 @@ extension Collection where Iterator.Element == Card {
         return Set(self.map { $0.number }
             .sorted(by: { $0.numericValue() < $1.numericValue() })
             .suffix(count))
-    }
-}
-
-extension Array {
-    /// Returns all possible subarrays of size `groupSize` starting from the left
-    fileprivate func slice(groupsOf groupSize: Int) -> [ArraySlice<Iterator.Element>] {
-        guard self.count >= groupSize else { return [] }
-
-        let startIndices = (0...(self.count - groupSize))
-
-        return startIndices.map { startIndex in
-            let range = (startIndex..<(startIndex + groupSize))
-
-            return self[range]
-        }
-    }
-}
-
-extension Collection {
-    fileprivate func group<Key: Hashable>(by f: (Iterator.Element) -> Key) -> [Key : [Iterator.Element]] {
-        var dictionary: [Key : [Self.Iterator.Element]] = [:]
-
-        for element in self {
-            let key = f(element)
-
-            dictionary[key] = (dictionary[key] ?? []) + [element]
-        }
-
-        return dictionary
     }
 }
 
