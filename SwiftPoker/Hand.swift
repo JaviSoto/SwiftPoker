@@ -314,11 +314,14 @@ extension Hand: Comparable {
         case let (.pair(number1, kickerNumbers1), .pair(number2, kickerNumbers2)): return number1 < number2 || kickerNumbers1 < kickerNumbers2
         case let (.twoPairs(number1, secondNumber1, kickerNumber1), .twoPairs(number2, secondNumber2, kickerNumber2)): return number1 < number2 || secondNumber1 < secondNumber2 || kickerNumber1 < kickerNumber2
         case let (.threeOfAKind(number1, kickers1), .threeOfAKind(number2, kickers2)): return number1 < number2 || kickers1 < kickers2
-
-
+        case let (.straight(numbers1), .straight(numbers2)): return numbers1 < numbers2
+        case let (.flush(numbers1), .flush(numbers2)): return numbers1 < numbers2
+        case let (.fullHouse(three1, pair1), .fullHouse(three2, pair2)): return three1 < three2 || pair1 < pair2
+        case let (.fourOfAKind(number1, kicker1), .fourOfAKind(number2, kicker2)): return number1 < number2 || kicker1 < kicker2
         case let (.straightFlush(numbers1), .straightFlush(numbers2)): return numbers1 < numbers2
+        case (.royalFlush, .royalFlush): return false
 
-        default: fatalError("Switch should be exhaustive")
+        default: fatalError("Switch should be exhaustive: \(lhs) < \(rhs)")
         }
     }
 }
