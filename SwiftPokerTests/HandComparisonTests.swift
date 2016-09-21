@@ -23,33 +23,6 @@ final class HandKindTests: XCTestCase {
 }
 
 final class HandComparisonTests: XCTestCase {
-    func test2RoyalFlushesAreEqual() {
-        let cards1: Set<Card> = [
-            Card(suit: .clubs, number: .ace),
-            Card(suit: .hearts, number: .two),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .clubs, number: .king),
-            Card(suit: .clubs, number: .queen),
-            Card(suit: .clubs, number: .jack),
-            Card(suit: .clubs, number: .ten)
-        ]
-
-        let cards2: Set<Card> = [
-            Card(suit: .diamonds, number: .ace),
-            Card(suit: .hearts, number: .two),
-            Card(suit: .hearts, number: .three),
-            Card(suit: .diamonds, number: .king),
-            Card(suit: .diamonds, number: .queen),
-            Card(suit: .diamonds, number: .jack),
-            Card(suit: .diamonds, number: .ten)
-        ]
-
-        let hand1 = Hand(cards1)
-        let hand2 = Hand(cards2)
-
-        XCTAssertEqual(hand1, hand2)
-    }
-
     func testHighestCardOfStraightFlushWins() {
         let cards1: Set<Card> = [
             Card(suit: .hearts, number: .ace),
@@ -229,5 +202,84 @@ final class HandComparisonTests: XCTestCase {
         XCTAssertEqual(hand1, hand1)
         XCTAssertEqual(hand2, hand2)
         XCTAssertLessThan(hand1, hand2)
+    }
+
+    func testHighestThreeOfAKindWins() {
+
+    }
+
+    func testHighestThreeOfAKindKickerWins() {
+
+    }
+
+    func testSecondHighestThreeOfAKindKickerWins() {
+
+    }
+
+    func testHighestStraightCardWins() {
+
+    }
+
+    func testSameStraightHigherKickerCardWins() {
+
+    }
+
+    func testHighestFlushCardWins() {
+
+    }
+
+    func testHighestFlushLastCardWins() {
+
+    }
+
+    func testHighestFullHouseThreeOfAKindWins() {
+
+    }
+
+    func testFullHouseWithSameThreeOfAKindHighestPairWins() {
+
+    }
+
+    func testFullHouseWithSameThreeOfAKindAndPairHighestKickerWins() {
+
+    }
+
+    func testHigherFourOfAKindWins() {
+
+    }
+
+    func testFourOfAKindWithHigherKickerWins() {
+
+    }
+
+    func testStraightFlushWithHighestCardWins() {
+
+    }
+
+    func test2RoyalFlushesAreEqual() {
+        let cards1: Set<Card> = [
+            Card(suit: .clubs, number: .ace),
+            Card(suit: .hearts, number: .two),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .clubs, number: .king),
+            Card(suit: .clubs, number: .queen),
+            Card(suit: .clubs, number: .jack),
+            Card(suit: .clubs, number: .ten)
+        ]
+
+        let cards2: Set<Card> = [
+            Card(suit: .diamonds, number: .ace),
+            Card(suit: .hearts, number: .two),
+            Card(suit: .hearts, number: .three),
+            Card(suit: .diamonds, number: .king),
+            Card(suit: .diamonds, number: .queen),
+            Card(suit: .diamonds, number: .jack),
+            Card(suit: .diamonds, number: .ten)
+        ]
+
+        let hand1 = Hand(cards1)
+        let hand2 = Hand(cards2)
+
+        XCTAssertEqual(hand1, hand2)
     }
 }
