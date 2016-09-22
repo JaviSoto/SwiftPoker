@@ -21,15 +21,28 @@ import SwiftPoker
  Full-House: 0.4498%
  Four of a Kind: 0.0262%
  Straight Flush: 0.0034%
- 
- // No royal flush??
-
  */
 
 //let odds = preFlopOdds(pocketCards: ["2♥️", "6♥️"], numberOfOtherPlayers: 2, iterations: 5000, debugLog: false)
 
-let odds2 = preFlopHandKindOdds(pocketCards: ["2♥️", "6♥️"], numberOfOtherPlayers: 2, iterations: 5000)
+let odds2 = preFlopHandKindOdds(pocketCards: ["A♥️", "A♠️"], numberOfOtherPlayers: 10, iterations: 40000)
 
 for (kind, percentage) in odds2 {
     print("\(kind): \(percentage)%")
 }
+
+/**
+ preFlopHandKindOdds(pocketCards: ["A♥️", "K♥️"], numberOfOtherPlayers: 2, iterations: 400000):
+
+ Pair: 35.253%
+ Straight: 21.80875%
+ Two Pairs: 20.5685%
+ High Card: 9.47075%
+ Flush: 6.43125%
+ Three of a Kind: 3.96475%
+ Full-House: 2.229%
+ Four of a Kind: 0.12225%
+ Royal Flush: 0.09%
+ Straight Flush: 0.06175%
+
+ */
