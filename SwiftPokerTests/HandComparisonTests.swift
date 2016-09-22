@@ -336,8 +336,8 @@ final class HandComparisonTests: XCTestCase {
 
     func testHighestFlushCardWins() {
         let cards1: Set<Card> = [
+            Card(number: .three, suit: .hearts),
             Card(number: .ace, suit: .hearts),
-            Card(number: .king, suit: .hearts),
             Card(number: .queen, suit: .hearts),
             Card(number: .jack, suit: .hearts),
             Card(number: .ten, suit: .hearts)
