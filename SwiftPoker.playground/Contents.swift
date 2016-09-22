@@ -26,6 +26,10 @@ import SwiftPoker
 
  */
 
-let odds = preFlopOdds(pocketCards: ["2♥️", "6♦️"], numberOfOtherPlayers: 2, iterations: 5000, debugLog: false)
+//let odds = preFlopOdds(pocketCards: ["2♥️", "6♥️"], numberOfOtherPlayers: 2, iterations: 5000, debugLog: false)
 
-"\(odds * 100)%"
+let odds2 = preFlopHandKindOdds(pocketCards: ["2♥️", "6♥️"], numberOfOtherPlayers: 2, iterations: 5000)
+
+for (kind, percentage) in odds2 {
+    print("\(kind): \(percentage)%")
+}

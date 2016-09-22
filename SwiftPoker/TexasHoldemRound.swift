@@ -37,11 +37,11 @@ public final class TexasHoldemRound {
 
     public var hands: [(player: Player, hand: Hand)] {
         return self.players
-            .map { ($0, Hand(Array($0.cards) + Array(self.communityCards))) }
+            .map { ($0, Hand($0.cards.union(self.communityCards))) }
     }
 
     /// FIX-ME: 2 players could have the same hand
-    public var winningPlayer: (Player, Hand) {
+    public var winningHand: (player: Player, hand: Hand) {
         return self.hands
             .sorted { $0.hand > $1.hand }
             .first!
