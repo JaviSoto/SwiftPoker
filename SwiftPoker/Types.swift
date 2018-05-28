@@ -227,7 +227,7 @@ public struct Deck {
                 continue
             }
 
-            swap(&cards[index], &cards[randomIndex])
+            cards.swapAt(index, randomIndex)
         }
 
         self.cards = cards
