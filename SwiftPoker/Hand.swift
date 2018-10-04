@@ -49,7 +49,7 @@ public enum Hand {
     }
 
     /// Determine the hand given a set of [2, 7] cards.
-    public init<S: Collection>(_ cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
+    public init<S: Collection>(_ cards: S) where S.Iterator.Element == Card {
         precondition(!cards.isEmpty)
         precondition(cards.count >= Hand.cardsInHand)
         precondition(cards.count <= 7)
@@ -123,7 +123,7 @@ extension Hand.Kind: CustomStringConvertible {
     }
 }
 
-fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
+fileprivate extension Collection where Iterator.Element == Card {
     var royalFlush: Bool {
         guard let straight = self.straight(withAceAsLowestCard: false), straight.flush != nil else { return false }
 
@@ -215,7 +215,7 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
     }
 }
 
-fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
+fileprivate extension Collection where Iterator.Element == Card {
     /// - returns: nil if the set of cards doesn't have a straight, or the array of cards that has a straight if it does.
     var straight: [Card]? {
         return self.straight(withAceAsLowestCard: true) ?? self.straight(withAceAsLowestCard: false)
@@ -377,6 +377,7 @@ extension Hand.Kind: Comparable {
     }
 }
 
+// https://stackoverflow.com/questions/45469194/check-whether-integers-in-array-are-consecutive-or-in-sequence
 extension Sequence {
     func all(pass predicate: (Element) -> Bool) -> Bool {
         // If nothing is false, everything is true

@@ -151,12 +151,12 @@ public struct Card {
     }
 
     public init?(_ numberAndSuitString: String) {
-        guard numberAndSuitString.characters.count == 2 else {
+        guard numberAndSuitString.count == 2 else {
             return nil
         }
 
-        guard let number = Number(String(numberAndSuitString.characters.first!)),
-            let suit = Suit(String(numberAndSuitString.characters.last!))
+        guard let number = Number(String(numberAndSuitString.first!)),
+            let suit = Suit(String(numberAndSuitString.last!))
             else {
                 return nil
         }
