@@ -51,6 +51,13 @@ public final class TexasHoldemRound {
         return Set(communityCards.prefix(3))
     }
     
+    public func getTurn() -> Set<Card> {
+        return Set(communityCards.prefix(4))
+    }
+    
+    public func getRiver() -> Set<Card> {
+        return Set(communityCards.prefix(5))
+    }
     
 }
 

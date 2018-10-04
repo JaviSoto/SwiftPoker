@@ -31,4 +31,32 @@ class GameTests: XCTestCase {
         XCTAssertEqual(flop1, flop2)
         XCTAssertEqual(flop1, firstThreeCards)
     }
+    
+    func testShowTurnCards() {
+        let round = Deck.sortedDeck.dealIntoGame(playerCount: self.playerCount)
+        let firstFourCards = Set(round.communityCards.prefix(4))
+        
+        let turn1 = round.getTurn()
+        let turn2 = round.getTurn()
+        
+        assert(turn1.count == 4)
+        assert(turn2.count == 4)
+        
+        XCTAssertEqual(turn1, turn2)
+        XCTAssertEqual(turn1, firstFourCards)
+    }
+    
+    func testShowRiverCards() {
+        let round = Deck.sortedDeck.dealIntoGame(playerCount: self.playerCount)
+        let firstFiveCards = Set(round.communityCards.prefix(5))
+        
+        let river1 = round.getRiver()
+        let river2 = round.getRiver()
+        
+        assert(river1.count == 5)
+        assert(river2.count == 5)
+        
+        XCTAssertEqual(river1, river2)
+        XCTAssertEqual(river1, firstFiveCards)
+    }
 }
