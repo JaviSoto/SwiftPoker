@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		71709B1C2165C864000BF06C /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71709B1B2165C864000BF06C /* GameTests.swift */; };
 		BF18E2DE1D90942500AB5515 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E2DD1D90942500AB5515 /* AppDelegate.swift */; };
 		BF18E2E01D90942500AB5515 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E2DF1D90942500AB5515 /* ViewController.swift */; };
 		BF18E2E31D90942500AB5515 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF18E2E11D90942500AB5515 /* Main.storyboard */; };
@@ -72,6 +73,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		71709B1B2165C864000BF06C /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
 		BF18E2DA1D90942500AB5515 /* SwiftPoker-SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftPoker-SampleApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF18E2DD1D90942500AB5515 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF18E2DF1D90942500AB5515 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -88,7 +90,7 @@
 		BF18E30A1D90943300AB5515 /* SwiftPokerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftPokerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF18E3131D90943300AB5515 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF18E3201D90943D00AB5515 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		BF4B892C1D9096F20036C0AA /* SwiftPoker.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPoker.playground; sourceTree = "<group>"; };
+		BF4B892C1D9096F20036C0AA /* SwiftPoker.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = SwiftPoker.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		BF4B892D1D913FB80036C0AA /* HandsTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandsTests.swift; sourceTree = "<group>"; };
 		BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HandComparisonTests.swift; sourceTree = "<group>"; };
 		BF4B89311D91754C0036C0AA /* Hand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hand.swift; sourceTree = "<group>"; };
@@ -194,6 +196,7 @@
 				BFF2795D1D92C301006FACA8 /* CardNumberSortingTests.swift */,
 				BF4B892D1D913FB80036C0AA /* HandsTests.swift */,
 				BF4B892F1D9164480036C0AA /* HandComparisonTests.swift */,
+				71709B1B2165C864000BF06C /* GameTests.swift */,
 				BF18E3131D90943300AB5515 /* Info.plist */,
 			);
 			path = SwiftPokerTests;
@@ -425,6 +428,7 @@
 				BF4B892E1D913FB80036C0AA /* HandsTests.swift in Sources */,
 				BF4B89301D9164480036C0AA /* HandComparisonTests.swift in Sources */,
 				BFF2795E1D92C301006FACA8 /* CardNumberSortingTests.swift in Sources */,
+				71709B1C2165C864000BF06C /* GameTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -46,6 +46,12 @@ public final class TexasHoldemRound {
             .sorted { $0.hand > $1.hand }
             .first!
     }
+    
+    public func getFlop() -> Set<Card> {
+        return Set(communityCards.prefix(3))
+    }
+    
+    
 }
 
 extension Deck {
