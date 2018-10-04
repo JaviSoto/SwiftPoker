@@ -376,17 +376,3 @@ extension Hand.Kind: Comparable {
         return Hand.Kind.kindsByStrength.index(of: lhs)! < Hand.Kind.kindsByStrength.index(of: rhs)!
     }
 }
-
-// https://stackoverflow.com/questions/45469194/check-whether-integers-in-array-are-consecutive-or-in-sequence
-extension Sequence {
-    func all(pass predicate: (Element) -> Bool) -> Bool {
-        // If nothing is false, everything is true
-        return !self.contains(where: { !predicate($0) })
-    }
-}
-
-extension Collection {
-    func passesForConsecutiveValues(_ predicate:(Element, Element) -> Bool) -> Bool {
-        return zip(self, dropFirst()).all(pass: predicate)
-    }
-}
