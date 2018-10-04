@@ -59,4 +59,28 @@ class GameTests: XCTestCase {
         XCTAssertEqual(river1, river2)
         XCTAssertEqual(river1, firstFiveCards)
     }
+    
+    func testPositionsForTenPlayerGame() {
+        let tenPlayers = 10
+        let round = Deck.sortedDeck.dealIntoGame(playerCount: tenPlayers)
+        
+        var firstPlayerSet = [TexasHoldemRound.Player]()
+        var secondPlayerSet = [TexasHoldemRound.Player]()
+        
+        for (index, player) in round.players.enumerated() {
+            let playerHand = player.cards
+            let playerPosition = player.position
+            print("\(index): \(playerPosition): \(playerHand)")
+            firstPlayerSet.append(player)
+        }
+        
+        for (index, player) in round.players.enumerated() {
+            let playerHand = player.cards
+            let playerPosition = player.position
+            print("\(index): \(playerPosition): \(playerHand)")
+            secondPlayerSet.append(player)
+        }
+        
+        assert(firstPlayerSet == secondPlayerSet)
+    }
 }

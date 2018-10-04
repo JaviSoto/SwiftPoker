@@ -8,6 +8,19 @@
 
 import Swift
 
+public enum Position {
+    case button
+    case bigBlind
+    case smallBlind
+    case underTheGunOne
+    case underTheGunTwo
+    case underTheGunThree
+    case middlePositionOne
+    case middlePositionTwo
+    case middlePositionThree
+    case cutoff
+}
+
 public enum Suit {
     case hearts
     case spades
