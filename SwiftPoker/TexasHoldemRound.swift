@@ -29,6 +29,8 @@ public final class TexasHoldemRound {
         }
     }
 
+    public let currentPlayer: Player
+    
     public var players: [Player]
 
     public init(players: [Player], communityCards: Set<Card>) {
@@ -36,6 +38,9 @@ public final class TexasHoldemRound {
 
         self.players = players
         self.communityCards = communityCards
+        
+        precondition(players.count > 1)
+        currentPlayer = self.players.randomElement()!
     }
 
     public var communityCards: Set<Card> {
@@ -96,7 +101,6 @@ extension Deck {
             let playerCards = cards.pop(first: cardsPerPlayer)
             let playerPosition = positions[index]
             players.append(TexasHoldemRound.Player(cards: Set(playerCards), position: playerPosition))
-            
         }
 
         let communityCards = cards.pop(first: 5)

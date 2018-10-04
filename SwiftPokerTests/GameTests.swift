@@ -83,4 +83,11 @@ class GameTests: XCTestCase {
         
         assert(firstPlayerSet == secondPlayerSet)
     }
+    
+    func testGetCurrentPlayer() {
+        let round = Deck.sortedDeck.dealIntoGame(playerCount: playerCount)
+        print("\(round.currentPlayer)")
+        print("\(round.currentPlayer.cards)")
+        print("\(round.currentPlayer.position)")
+    }
 }
