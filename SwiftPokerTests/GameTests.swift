@@ -86,8 +86,10 @@ class GameTests: XCTestCase {
     
     func testGetCurrentPlayer() {
         let round = Deck.sortedDeck.dealIntoGame(playerCount: playerCount)
-        print("\(round.currentPlayer)")
-        print("\(round.currentPlayer.cards)")
-        print("\(round.currentPlayer.position)")
+//        print("\(round.currentPlayer)")
+//        print("\(round.currentPlayer.cards)")
+//        print("\(round.currentPlayer.position)")
+        
+        round.determinePlayerActions()
     }
 }

@@ -73,6 +73,11 @@ public final class TexasHoldemRound {
         return Set(communityCards.prefix(5))
     }
     
+    public func determinePlayerActions() {
+        for player in players {
+            print("\(player.position)")
+        }
+    }
 }
 
 extension Deck {
@@ -86,16 +91,16 @@ extension Deck {
 
         var players: [TexasHoldemRound.Player] = []
 
-        var positions: [Position] = [.button,
-                                     .bigBlind,
-                                     .smallBlind,
-                                     .underTheGunOne,
+        var positions: [Position] = [.underTheGunOne,
                                      .underTheGunTwo,
                                      .underTheGunThree,
                                      .middlePositionOne,
                                      .middlePositionTwo,
                                      .middlePositionThree,
-                                     .cutoff]
+                                     .cutoff,
+                                     .button,
+                                     .smallBlind,
+                                     .bigBlind ]
         
         for index in 0..<playerCount {
             let playerCards = cards.pop(first: cardsPerPlayer)
