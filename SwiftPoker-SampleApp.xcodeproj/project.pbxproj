@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		71709B1C2165C864000BF06C /* GameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71709B1B2165C864000BF06C /* GameTests.swift */; };
+		71709B1E2168427F000BF06C /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71709B1D2168427F000BF06C /* Player.swift */; };
 		BF18E2DE1D90942500AB5515 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E2DD1D90942500AB5515 /* AppDelegate.swift */; };
 		BF18E2E01D90942500AB5515 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF18E2DF1D90942500AB5515 /* ViewController.swift */; };
 		BF18E2E31D90942500AB5515 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF18E2E11D90942500AB5515 /* Main.storyboard */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		71709B1B2165C864000BF06C /* GameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTests.swift; sourceTree = "<group>"; };
+		71709B1D2168427F000BF06C /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		BF18E2DA1D90942500AB5515 /* SwiftPoker-SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftPoker-SampleApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF18E2DD1D90942500AB5515 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF18E2DF1D90942500AB5515 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 				BF4B89311D91754C0036C0AA /* Hand.swift */,
 				BF4B89331D9175740036C0AA /* TexasHoldemRound.swift */,
 				BFF279611D933F10006FACA8 /* CollectionExtensions.swift */,
+				71709B1D2168427F000BF06C /* Player.swift */,
 				BF4B89351D9175790036C0AA /* Aux Files */,
 			);
 			path = SwiftPoker;
@@ -417,6 +420,7 @@
 				BF4B89321D91754C0036C0AA /* Hand.swift in Sources */,
 				BFF279621D933F10006FACA8 /* CollectionExtensions.swift in Sources */,
 				BF18E3211D90943D00AB5515 /* Types.swift in Sources */,
+				71709B1E2168427F000BF06C /* Player.swift in Sources */,
 				BF4B89341D9175740036C0AA /* TexasHoldemRound.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

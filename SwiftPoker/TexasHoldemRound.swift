@@ -9,27 +9,10 @@
 import Foundation
 
 public final class TexasHoldemRound {
-    public final class Player: Equatable {
-        public let position: Position
-        
-        public static let pocketCards = 2
+    
+    public var numberOfRaises = 0
 
-        public let cards: Set<Card>
-
-        public init(cards: Set<Card>, position: Position) {
-            precondition(cards.count == Player.pocketCards)
-            self.cards = cards
-            self.position = position
-        }
-        
-        public static func ==(lhs: Player, rhs: Player) -> Bool {
-            let sameCards = lhs.cards == rhs.cards
-            let samePosition = lhs.position == rhs.position
-            return sameCards && samePosition
-        }
-    }
-
-    public let currentPlayer: Player
+    public let mainPlayer: Player
     
     public var players: [Player]
 
@@ -87,9 +70,9 @@ extension Deck {
 
         var cards = self.shuffled.cards
 
-        let cardsPerPlayer = TexasHoldemRound.Player.pocketCards
+        let cardsPerPlayer = Player.pocketCards
 
-        var players: [TexasHoldemRound.Player] = []
+        var players: [Player] = []
 
         var positions: [Position] = [.underTheGunOne,
                                      .underTheGunTwo,
@@ -105,7 +88,7 @@ extension Deck {
         for index in 0..<playerCount {
             let playerCards = cards.pop(first: cardsPerPlayer)
             let playerPosition = positions[index]
-            players.append(TexasHoldemRound.Player(cards: Set(playerCards), position: playerPosition))
+            players.append(Player(cards: Set(playerCards), position: playerPosition))
         }
 
         let communityCards = cards.pop(first: 5)
