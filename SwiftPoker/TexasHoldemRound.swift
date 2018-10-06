@@ -9,17 +9,11 @@
 import Foundation
 
 public final class TexasHoldemRound {
-    public final class Player {
-        public static let pocketCards = 2
+    
+    public var numberOfRaises = 0
 
-        public let cards: Set<Card>
-
-        public init(cards: Set<Card>) {
-            precondition(cards.count == Player.pocketCards)
-            self.cards = cards
-        }
-    }
-
+    public let mainPlayer: Player
+    
     public var players: [Player]
 
     public init(players: [Player], communityCards: Set<Card>) {
@@ -27,6 +21,9 @@ public final class TexasHoldemRound {
 
         self.players = players
         self.communityCards = communityCards
+        
+        precondition(players.count > 1)
+        currentPlayer = self.players.randomElement()!
     }
 
     public var communityCards: Set<Card> {
@@ -46,6 +43,24 @@ public final class TexasHoldemRound {
             .sorted { $0.hand > $1.hand }
             .first!
     }
+    
+    public func getFlop() -> Set<Card> {
+        return Set(communityCards.prefix(3))
+    }
+    
+    public func getTurn() -> Set<Card> {
+        return Set(communityCards.prefix(4))
+    }
+    
+    public func getRiver() -> Set<Card> {
+        return Set(communityCards.prefix(5))
+    }
+    
+    public func determinePlayerActions() {
+        for player in players {
+            print("\(player.position)")
+        }
+    }
 }
 
 extension Deck {
@@ -55,14 +70,25 @@ extension Deck {
 
         var cards = self.shuffled.cards
 
-        let cardsPerPlayer = TexasHoldemRound.Player.pocketCards
+        let cardsPerPlayer = Player.pocketCards
 
-        var players: [TexasHoldemRound.Player] = []
+        var players: [Player] = []
 
-        for _ in 0..<playerCount {
+        var positions: [Position] = [.underTheGunOne,
+                                     .underTheGunTwo,
+                                     .underTheGunThree,
+                                     .middlePositionOne,
+                                     .middlePositionTwo,
+                                     .middlePositionThree,
+                                     .cutoff,
+                                     .button,
+                                     .smallBlind,
+                                     .bigBlind ]
+        
+        for index in 0..<playerCount {
             let playerCards = cards.pop(first: cardsPerPlayer)
-
-            players.append(TexasHoldemRound.Player(cards: Set(playerCards)))
+            let playerPosition = positions[index]
+            players.append(Player(cards: Set(playerCards), position: playerPosition))
         }
 
         let communityCards = cards.pop(first: 5)

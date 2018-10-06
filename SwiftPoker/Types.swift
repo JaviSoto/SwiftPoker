@@ -8,6 +8,19 @@
 
 import Swift
 
+public enum Position {
+    case button
+    case bigBlind
+    case smallBlind
+    case underTheGunOne
+    case underTheGunTwo
+    case underTheGunThree
+    case middlePositionOne
+    case middlePositionTwo
+    case middlePositionThree
+    case cutoff
+}
+
 public enum Suit {
     case hearts
     case spades
@@ -151,12 +164,12 @@ public struct Card {
     }
 
     public init?(_ numberAndSuitString: String) {
-        guard numberAndSuitString.characters.count == 2 else {
+        guard numberAndSuitString.count == 2 else {
             return nil
         }
 
-        guard let number = Number(String(numberAndSuitString.characters.first!)),
-            let suit = Suit(String(numberAndSuitString.characters.last!))
+        guard let number = Number(String(numberAndSuitString.first!)),
+            let suit = Suit(String(numberAndSuitString.last!))
             else {
                 return nil
         }
@@ -227,7 +240,7 @@ public struct Deck {
                 continue
             }
 
-            swap(&cards[index], &cards[randomIndex])
+            cards.swapAt(index, randomIndex)
         }
 
         self.cards = cards

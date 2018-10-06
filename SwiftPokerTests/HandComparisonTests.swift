@@ -48,7 +48,7 @@ final class HandComparisonTests: XCTestCase {
 
         XCTAssertEqual(hand1, hand1)
         XCTAssertEqual(hand2, hand2)
-        XCTAssertLessThan(hand2, hand1)
+        XCTAssertLessThan(hand1, hand2)
     }
 
     func testHighestCardWins() {
@@ -330,7 +330,6 @@ final class HandComparisonTests: XCTestCase {
 
         XCTAssertEqual(hand1, hand1)
         XCTAssertEqual(hand2, hand2)
-        /// FIX-ME: Broken test: the number comparison here is only done with Ace being the highest card
         XCTAssertLessThan(hand1, hand2)
     }
 

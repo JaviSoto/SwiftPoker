@@ -49,7 +49,7 @@ public enum Hand {
     }
 
     /// Determine the hand given a set of [2, 7] cards.
-    public init<S: Collection>(_ cards: S) where S.Iterator.Element == Card, S.SubSequence.Iterator.Element == S.Iterator.Element, S.IndexDistance == Int {
+    public init<S: Collection>(_ cards: S) where S.Iterator.Element == Card {
         precondition(!cards.isEmpty)
         precondition(cards.count >= Hand.cardsInHand)
         precondition(cards.count <= 7)
@@ -123,7 +123,7 @@ extension Hand.Kind: CustomStringConvertible {
     }
 }
 
-fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
+fileprivate extension Collection where Iterator.Element == Card {
     var royalFlush: Bool {
         guard let straight = self.straight(withAceAsLowestCard: false), straight.flush != nil else { return false }
 
@@ -215,7 +215,7 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
     }
 }
 
-fileprivate extension Collection where Iterator.Element == Card, SubSequence.Iterator.Element == Card, IndexDistance == Int {
+fileprivate extension Collection where Iterator.Element == Card {
     /// - returns: nil if the set of cards doesn't have a straight, or the array of cards that has a straight if it does.
     var straight: [Card]? {
         return self.straight(withAceAsLowestCard: true) ?? self.straight(withAceAsLowestCard: false)
@@ -262,16 +262,57 @@ fileprivate extension Collection where Iterator.Element == Card, SubSequence.Ite
     }
 }
 
+// MARK: Comparing two sets of hand values
 func <(lhs: Set<Number>, rhs: Set<Number>) -> Bool {
-    for (leftValue, rightValue) in zip(lhs.map { $0.numericValue() }.sorted(by: >), rhs.map { $0.numericValue() }.sorted(by: >)) {
+    
+    var numericValuesLeft = lhs.map { $0.numericValue() }
+    var numericValuesRight = rhs.map { $0.numericValue() }
+    
+    let isLeftLowAceConsecutive = isSetLowAceConsecutive(set: lhs)
+    let isRightLowAceConsecutive = isSetLowAceConsecutive(set: rhs)
+    
+    if isLeftLowAceConsecutive == true {
+        numericValuesLeft = lhs.map { $0.numericValue(aceAsLowestCard: true) }
+    }
+    
+    if isRightLowAceConsecutive == true {
+        numericValuesRight = rhs.map { $0.numericValue(aceAsLowestCard: true) }
+    }
+    
+    let sortedNumericLeft = numericValuesLeft.sorted(by: >)
+    let sortedNumericRight = numericValuesRight.sorted(by: >)
+    
+    let zippedValues = zip(sortedNumericLeft, sortedNumericRight)
+    
+    for (leftValue, rightValue) in zippedValues {
         if leftValue == rightValue {
             continue
         }
-
+        
         return leftValue < rightValue
     }
-
+    
     return false
+}
+
+func isSetLowAceConsecutive(set: Set<Number>) -> Bool {
+    let sortedByLowAce = set.sorted(by: Number.compare(aceAsLowestCard: true))
+    let isLowAceConsecutive = sortedByLowAce.passesForConsecutiveValues { (num1, num2) -> Bool in
+        let num1 = num1.numericValue(aceAsLowestCard: true)
+        let num2 = num2.numericValue(aceAsLowestCard: true)
+        
+        if num1 == num2 - 1 {
+            return true
+        }
+        
+        return false
+    }
+    
+    if isLowAceConsecutive == true {
+        return true
+    } else {
+        return false
+    }
 }
 
 extension Collection where Iterator.Element == Card {
